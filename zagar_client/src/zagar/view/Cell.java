@@ -4,13 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import zagar.Game;
 import zagar.Main;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
 
 public class Cell {
   public double x, y;
@@ -74,6 +69,7 @@ public class Cell {
       int x = (int) ((this.xRender - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
       int y = (int) ((this.yRender - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
 
+
       if (x < -size - 30 || x > GameFrame.size.width + 30 || y < -size - 30 || y > GameFrame.size.height + 30) {
         return;
       }
@@ -91,6 +87,7 @@ public class Cell {
           }
           hexagon.addPoint((int) (x + ((size + spike) / 2) * Math.cos(-rotation + i * 2 * pi / a)) + size / 2, (int) (y + ((size + spike) / 2) * Math.sin(-rotation + i * 2 * pi / a)) + size / 2);
         }
+        g.setColor(new Color(150, 150, 0));
         g.fillPolygon(hexagon);
       } else {
         Polygon hexagon = new Polygon();
@@ -102,6 +99,7 @@ public class Cell {
           int pointY = (int) (y + (size / 2) * Math.sin(rotation + i * 2 * pi / a)) + size / 2;
           hexagon.addPoint(pointX, pointY);
         }
+        g.setColor(new Color(0, 150, 0));
         g.fillPolygon(hexagon);
       }
 

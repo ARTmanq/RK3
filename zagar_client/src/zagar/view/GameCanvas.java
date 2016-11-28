@@ -2,17 +2,9 @@ package zagar.view;
 
 import zagar.Game;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
-
-import javax.swing.JPanel;
 
 public class GameCanvas extends JPanel {
   private static final long serialVersionUID = 5570080027060608254L;
@@ -79,6 +71,13 @@ public class GameCanvas extends JPanel {
     }
 
     g.setFont(fontCells);
+
+    for (int i3 = 0; i3 < Game.food.length; i3++) {
+      Food food = Game.food[i3];
+      if (food != null) {
+        food.render(g, 1);
+      }
+    }
 
     for (int i2 = 0; i2 < Game.cells.length; i2++) {
       Cell cell = Game.cells[i2];

@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import replication.Replicator;
+import statistic.LeaderBoard;
+import statistic.TestLeaderBoard;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;
 
@@ -55,6 +57,7 @@ public class MasterServer {
       ApplicationContext.instance().put(ClientConnections.class, new ClientConnections());
       ApplicationContext.instance().put(Replicator.class, Class.forName(prop.getProperty("replicator")).newInstance());
       ApplicationContext.instance().put(IDGenerator.class, new SequentialIDGenerator());
+      ApplicationContext.instance().put(LeaderBoard.class, new TestLeaderBoard());
     } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
       e.printStackTrace();
     }

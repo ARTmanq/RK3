@@ -1,18 +1,16 @@
 package zagar.network.handlers;
 
-import java.nio.ByteBuffer;
-import java.util.Collections;
-
-import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import protocol.CommandLeaderBoard;
+import org.jetbrains.annotations.NotNull;
 import protocol.CommandReplicate;
+import zagar.Game;
 import zagar.util.JSONDeserializationException;
 import zagar.util.JSONHelper;
 import zagar.view.Cell;
-import zagar.Game;
-import org.jetbrains.annotations.NotNull;
+import zagar.view.Food;
+
+import java.util.Collections;
 
 public class PacketHandlerReplicate {
   @NotNull
@@ -31,10 +29,17 @@ public class PacketHandlerReplicate {
       protocol.model.Cell c = commandReplicate.getCells()[i];
       gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus());
     }
+    Food[] gameFood = new Food[commandReplicate.getFood().length];
+    for (int i = 0; i < commandReplicate.getFood().length; i++) {
+      protocol.model.Food f = commandReplicate.getFood()[i];
+      gameFood[i] = new Food(f.getX(), f.getY());
+    }
+
 
     Game.player.clear();
     Collections.addAll(Game.player, gameCells);
     Game.cells = gameCells;
+    Game.food = gameFood;
 
     //TODO
 /*    if (b == null) return;

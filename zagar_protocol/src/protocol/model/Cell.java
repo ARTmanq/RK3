@@ -43,4 +43,5 @@ public final class Cell {
   public float getSize() {
     return size;
   }
+
 }
