@@ -27,7 +27,6 @@ public class MasterServer {
 
   private void start() throws ExecutionException, InterruptedException {
     log.info("MasterServer started");
-    //TODO RK3 configure server parameters
 
     Properties prop = new Properties();
     InputStream input = null;

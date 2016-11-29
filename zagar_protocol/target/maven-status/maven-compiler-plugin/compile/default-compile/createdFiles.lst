@@ -1,0 +1,12 @@
+protocol/CommandAuth.class
+protocol/CommandMove.class
+protocol/CommandAuthFail.class
+protocol/CommandAuthOk.class
+protocol/CommandEjectMass.class
+protocol/model/Cell.class
+protocol/CommandLeaderBoard.class
+protocol/CommandThankYou.class
+protocol/CommandReplicate.class
+protocol/model/Food.class
+protocol/Command.class
+protocol/CommandSplit.class

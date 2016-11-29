@@ -12,16 +12,10 @@ public class Food {
     public double x, y;
     public final float size = 25.0f;
     private int r, g, b;
-    public float sizeRender;
-    public double xRender;
-    public double yRender;
 
     public Food(double x, double y) {
         this.x = x;
         this.y = y;
-        this.xRender = this.x;
-        this.yRender = this.y;
-        this.sizeRender = this.size;
         r = 255;
         g = 255;
         b = 0;
@@ -30,7 +24,7 @@ public class Food {
     public void render(@NotNull Graphics2D g, float scale) {
         if (Game.food.length > 0) {
             g.setColor(new Color(this.r, this.g, this.b));
-            int size = (int) ((this.sizeRender * 2f * scale) * Game.zoom);
+            int size = (int) ((this.size * 2f * scale) * Game.zoom);
 
             float avgX = 0;
             float avgY = 0;
@@ -45,8 +39,8 @@ public class Food {
             avgX /= Game.player.size();
             avgY /= Game.player.size();
 
-            int x = (int) ((this.xRender - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
-            int y = (int) ((this.yRender - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
+            int x = (int) ((this.x - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
+            int y = (int) ((this.y - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
 
             if (x < -size - 30 || x > GameFrame.size.width + 30 || y < -size - 30 || y > GameFrame.size.height + 30) {
                 return;
