@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import ticker.Tickable;
-import ticker.Ticker;
 
 /**
  * Created by apomosov on 14.05.16.
@@ -26,14 +25,17 @@ public class Mechanics extends Service implements Tickable {
   @Override
   public void run() {
     log.info(getAddress() + " started");
-    Ticker ticker = new Ticker(this, 1);
-    ticker.loop();
+    /*Ticker ticker = new Ticker(this, 1);
+    ticker.loop();*/
+    while(true){
+      tick(100);
+    }
   }
 
   @Override
   public void tick(long elapsedNanos) {
     try {
-      Thread.sleep(1500);
+      Thread.sleep(elapsedNanos);
     } catch (InterruptedException e) {
       log.error(e);
       Thread.currentThread().interrupt();

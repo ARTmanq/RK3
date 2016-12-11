@@ -11,10 +11,10 @@ import java.util.Random;
  * @author apomosov
  */
 public class SimplePlayerPlacer implements PlayerPlacer {
-  @NotNull
-  private final Field field;
+  private Field field;
 
-  public SimplePlayerPlacer(@NotNull Field field) {
+  @Override
+  public void setField(Field field){
     this.field = field;
   }
 

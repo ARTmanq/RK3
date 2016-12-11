@@ -5,6 +5,7 @@ import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.MoveMsg;
+import network.ClientConnections;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandMove;
@@ -20,9 +21,8 @@ public class PacketHandlerMove {
       e.printStackTrace();
       return;
     }
-    //TODO
     @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
-    Message message = new MoveMsg(new Address("client"), commandMove);
+    Message message = new MoveMsg(new Address(ApplicationContext.instance().get(ClientConnections.class).getPlayer(session).getName()), commandMove);
     messageSystem.sendMessage(message);
   }
 }

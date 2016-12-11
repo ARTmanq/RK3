@@ -11,10 +11,12 @@ import java.util.Random;
  * @author apomosov
  */
 public class RandomPlayerPlacer implements PlayerPlacer {
-  @NotNull
-  private final Field field;
+  private Field field;
 
-  public RandomPlayerPlacer(@NotNull Field field) {
+  public RandomPlayerPlacer() {}
+
+  @Override
+  public void setField(Field field){
     this.field = field;
   }
 

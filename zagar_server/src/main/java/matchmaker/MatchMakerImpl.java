@@ -1,15 +1,10 @@
 package matchmaker;
 
-import main.ApplicationContext;
 import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import ticker.Ticker;
-import utils.RandomPlayerPlacer;
-import utils.RandomVirusGenerator;
-import utils.SimplePlayerPlacer;
-import utils.UniformFoodGenerator;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +35,18 @@ public class MatchMakerImpl implements MatchMaker {
     }
   }
 
+  @Override
+  public Player getPlayer(String name){
+    for (GameSession session : activeGameSessions){
+      for (Player player : session.getPlayers()){
+        if (player.getName().equals(name)) {
+          return player;
+        }
+      }
+    }
+    return null;
+  }
+
   @NotNull
   public List<GameSession> getActiveGameSessions() {
     return new ArrayList<>(activeGameSessions);
@@ -52,10 +59,12 @@ public class MatchMakerImpl implements MatchMaker {
   @NotNull
   GameSession createNewGame() {
     Field field = new Field();
-    //TODO
+    PlayerPlacer playerPlacer = new RandomPlayerPlacer();
+    VirusGenerator virusGenerator = new RandomVirusGenerator(GameConstants.NUMBER_OF_VIRUSES);
     //Ticker ticker = ApplicationContext.instance().get(Ticker.class);
-    UniformFoodGenerator foodGenerator = new UniformFoodGenerator(field, GameConstants.FOOD_PER_SECOND_GENERATION, GameConstants.MAX_FOOD_ON_FIELD);
+    UniformFoodGenerator foodGenerator = new UniformFoodGenerator(GameConstants.FOOD_PER_SECOND_GENERATION, GameConstants.MAX_FOOD_ON_FIELD);
     //ticker.registerTickable(foodGenerator);
-    return new GameSessionImpl(foodGenerator, new RandomPlayerPlacer(field), new RandomVirusGenerator(field, GameConstants.NUMBER_OF_VIRUSES));
+
+    return new GameSessionImpl(foodGenerator, playerPlacer, virusGenerator);
   }
 }

@@ -1,6 +1,5 @@
 package model;
 
-import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
 import utils.*;
 
@@ -26,9 +25,13 @@ public class GameSessionImpl implements GameSession {
 
   public GameSessionImpl(@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer, @NotNull VirusGenerator virusGenerator) {
     this.foodGenerator = foodGenerator;
+    this.foodGenerator.setField(field);
     this.playerPlacer = playerPlacer;
+    this.playerPlacer.setField(field);
     this.virusGenerator = virusGenerator;
+    this.virusGenerator.setField(field);
     virusGenerator.generate();
+    foodGenerator.tick(500);
   }
 
   @Override

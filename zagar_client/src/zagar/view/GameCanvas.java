@@ -32,7 +32,7 @@ public class GameCanvas extends JPanel {
     g.setColor(new Color(255, 255, 255));
     g.fillRect(0, 0, GameFrame.size.width, GameFrame.size.height);
 
-    g.setColor(new Color(220, 220, 220));
+    g.setColor(new Color(0, 0, 0));
 
     if (Game.fps < 30) {
       g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -58,13 +58,13 @@ public class GameCanvas extends JPanel {
 
       g.setStroke(new BasicStroke(2));
 
-      for (double i = avgX - (GameFrame.size.width / 2) / Game.zoom; i < avgX + (GameFrame.size.width / 2) / Game.zoom; i += 100) {
-        i = (int) (i / 100) * 100;
+      double range =  Double.min((GameFrame.size.width / 2) / Game.zoom,Double.max(avgX-Game.minSizeX,Game.maxSizeX-avgX));
+      for (double i = avgX - range; i < avgX + range; i += 100) {        i = (int) (i / 100) * 100;
         int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
         g.drawLine((int) x, (int) Game.minSizeY, (int) x, (int) Game.maxSizeY);
       }
-      for (double i = avgY - (GameFrame.size.height / 2) / Game.zoom; i < avgY + (GameFrame.size.height / 2) / Game.zoom; i += 100) {
-        i = (int) (i / 100) * 100;
+      range=Double.min((GameFrame.size.height / 2) / Game.zoom,Double.max(avgY-Game.minSizeY,Game.maxSizeY-avgY));
+      for (double i = avgY - range; i < avgY + range; i += 100) {        i = (int) (i / 100) * 100;
         int y = (int) ((i - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
         g.drawLine((int) Game.minSizeX, (int) y, (int) Game.maxSizeX, (int) y);
       }

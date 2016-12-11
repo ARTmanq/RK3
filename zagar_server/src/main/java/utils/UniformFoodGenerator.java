@@ -1,29 +1,48 @@
 package utils;
 
 import model.Field;
-import org.jetbrains.annotations.NotNull;
+import model.Food;
+import model.GameConstants;
 
-import java.util.concurrent.TimeUnit;
+import java.util.HashSet;
+import java.util.Random;
 
 /**
  * @author apomosov
  */
 public class UniformFoodGenerator implements FoodGenerator {
-  @NotNull
-  private final Field field;
+  private Field field;
   private final int threshold;
   private final double foodPerSecond;
 
-  public UniformFoodGenerator(@NotNull Field field, double foodPerSecond, int threshold) {
-    this.field = field;
+  public UniformFoodGenerator(double foodPerSecond, int threshold) {
     this.threshold = threshold;
     this.foodPerSecond = foodPerSecond;
   }
 
   @Override
+  public void setField(Field field){
+    this.field = field;
+  }
+
+  @Override
   public void tick(long elapsedNanos) {
-    if (field.getFoods().size() <= threshold) {
-      int toGenerate = (int) Math.ceil(foodPerSecond * elapsedNanos / 1_000_000_000.);
+    try {
+      //Thread.currentThread().sleep(elapsedNanos);
+      if (field.getFoods().size() <= threshold) {
+        Random random = new Random();
+        int foodRadius = (int) Math.sqrt(GameConstants.FOOD_MASS / Math.PI);
+        HashSet<Food> food = field.getFoods();
+        for (int i = 0; i < 10/*foodPerSecond*/; i++) {
+          food.add(new Food(
+                  foodRadius + random.nextInt(field.getWidth() - 2 * foodRadius),
+                  foodRadius + random.nextInt(field.getHeight() - 2 * foodRadius)
+          ));
+        }
+      }
+    } catch (Exception e){
+      e.printStackTrace();
     }
   }
+
 }

@@ -2,10 +2,7 @@ package replication;
 
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
-import model.GameSession;
-import model.Player;
-import model.PlayerCell;
-import model.Virus;
+import model.*;
 import network.ClientConnections;
 import network.packets.PacketReplicate;
 import org.eclipse.jetty.websocket.api.Session;
@@ -29,12 +26,11 @@ public class FullStateReplicator implements Replicator {
           food[i] = new Food(elem.getX(), elem.getY());
           i++;
       }
-
       int numberOfCellsInSession = 0;
       for (Player player : gameSession.getPlayers()) {
         numberOfCellsInSession += player.getCells().size();
       }
-      Cell[] cells = new Cell[numberOfCellsInSession];
+      Cell[] cells = new Cell[numberOfCellsInSession + GameConstants.NUMBER_OF_VIRUSES];
       i = 0;
       for (Player player : gameSession.getPlayers()) {
         for (PlayerCell playerCell : player.getCells()) {

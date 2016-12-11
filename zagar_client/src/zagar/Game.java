@@ -137,7 +137,6 @@ public class Game {
   }
 
   public void tick() throws IOException {
-    System.out.println("CELLS:\n" + Arrays.toString(Game.cells));
     if (socket != null && socket.session != null && socket.session.isOpen()) {
       if (spawnPlayer != -1) {
         spawnPlayer--;

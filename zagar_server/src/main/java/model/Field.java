@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * @author apomosov
@@ -13,7 +12,7 @@ public class Field {
   private final int width;
   private final int height;
   @NotNull
-  private final List<Virus> viruses = new ArrayList<>();
+  private final ArrayList<Virus> viruses = new ArrayList<>();
   @NotNull
   private final HashSet<Food> foods = new HashSet<>();
 
@@ -23,7 +22,7 @@ public class Field {
   }
 
   @NotNull
-  public List<Virus> getViruses() {
+  public ArrayList<Virus> getViruses() {
     return viruses;
   }
 
