@@ -39,10 +39,10 @@ public class Food {
             avgX /= Game.player.size();
             avgY /= Game.player.size();
 
-            int x = (int) ((this.x - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
-            int y = (int) ((this.y - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
+            int x = (int) ((this.x - avgX) * Game.zoom) + GameFrame.frame_size.width / 2 - size / 2;
+            int y = (int) ((this.y - avgY) * Game.zoom) + GameFrame.frame_size.height / 2 - size / 2;
 
-            if (x < -size - 30 || x > GameFrame.size.width + 30 || y < -size - 30 || y > GameFrame.size.height + 30) {
+            if (x < -size - 30 || x > GameFrame.frame_size.width + 30 || y < -size - 30 || y > GameFrame.frame_size.height + 30) {
                 return;
             }
             g.fillOval(x, y, size, size);

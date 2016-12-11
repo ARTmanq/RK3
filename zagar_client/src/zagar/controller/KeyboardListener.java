@@ -21,9 +21,9 @@ public class KeyboardListener implements KeyListener {
           if (e.getKeyCode() == KeyEvent.VK_W) {
             new PacketEjectMass().write();
           }
-          if (e.getKeyCode() == KeyEvent.VK_T) {
+          /*if (e.getKeyCode() == KeyEvent.VK_T) {
             Game.rapidEject = true;
-          }
+          }*/
         }
       }
     } catch (IOException ioEx) {
@@ -36,7 +36,7 @@ public class KeyboardListener implements KeyListener {
     if (Game.socket != null && Game.socket.session != null) {
       if (Game.socket.session.isOpen()) {
         if (e.getKeyCode() == KeyEvent.VK_T) {
-          Game.rapidEject = false;
+          //Game.rapidEject = false;
         }
       }
     }

@@ -78,7 +78,7 @@ public class ServerConnectionSocket {
         new PacketHandlerAuthFail(msg);
         break;
       case "auth_ok":
-        new PacketHandlerAuthOk();
+        new PacketHandlerAuthOk(msg);
         break;
     }
   }

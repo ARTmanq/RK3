@@ -32,18 +32,6 @@ public class Cell {
     this.sizeRender = this.size;
   }
 
-  public void tick() {
-    this.xRender -= (this.xRender - x) / 5f;
-    this.yRender -= (this.yRender - y) / 5f;
-    this.sizeRender -= (this.sizeRender - size) / 9f;
-    this.mass = Math.round((this.sizeRender * this.sizeRender) / 100);
-    this.rotation += (1f / (Math.max(this.mass, 20) * 2));
-
-    if (Game.cellNames.containsKey(this.id)) {
-      this.name = Game.cellNames.get(this.id);
-    }
-  }
-
   public void render(@NotNull Graphics2D g, float scale) {
     if (Game.player.size() > 0) {
       Color color = new Color(this.r, this.g, this.b);
@@ -66,11 +54,11 @@ public class Cell {
       avgX /= Game.player.size();
       avgY /= Game.player.size();
 
-      int x = (int) ((this.xRender - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
-      int y = (int) ((this.yRender - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
+      int x = (int) ((this.xRender - avgX) * Game.zoom) + GameFrame.frame_size.width / 2 - size / 2;
+      int y = (int) ((this.yRender - avgY) * Game.zoom) + GameFrame.frame_size.height / 2 - size / 2;
 
 
-      if (x < -size - 30 || x > GameFrame.size.width + 30 || y < -size - 30 || y > GameFrame.size.height + 30) {
+      if (x < -size - 30 || x > GameFrame.frame_size.width + 30 || y < -size - 30 || y > GameFrame.frame_size.height + 30) {
         return;
       }
 
@@ -129,21 +117,6 @@ public class Cell {
     g.drawString(string, x, y + 1);
     g.setColor(new Color(255, 255, 255));
     g.drawString(string, x, y);
-  }
-
-  public void setColor(byte r, byte g, byte b) {
-    this.r = r;
-    this.g = g;
-    this.b = b;
-    if (r < 0) {
-      this.r = r + 256;
-    }
-    if (g < 0) {
-      this.g = g + 256;
-    }
-    if (b < 0) {
-      this.b = b + 256;
-    }
   }
 
   @Override

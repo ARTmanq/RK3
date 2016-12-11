@@ -10,14 +10,13 @@ import zagar.util.JSONHelper;
 import zagar.view.Cell;
 import zagar.view.Food;
 
-import java.util.Collections;
-
 public class PacketHandlerReplicate {
   @NotNull
   private static final Logger log = LogManager.getLogger(PacketHandlerReplicate.class);
 
   public PacketHandlerReplicate(@NotNull String json) {
     CommandReplicate commandReplicate;
+    Game.player.clear();
     try {
       commandReplicate = JSONHelper.fromJSON(json, CommandReplicate.class);
     } catch (JSONDeserializationException e) {
@@ -28,6 +27,9 @@ public class PacketHandlerReplicate {
     for (int i = 0; i < commandReplicate.getCells().length; i++) {
       protocol.model.Cell c = commandReplicate.getCells()[i];
       gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus());
+      if (c.getPlayerId() == Game.playerId){
+        Game.player.add(gameCells[i]);
+      }
     }
     Food[] gameFood = new Food[commandReplicate.getFood().length];
     for (int i = 0; i < commandReplicate.getFood().length; i++) {
@@ -35,9 +37,6 @@ public class PacketHandlerReplicate {
       gameFood[i] = new Food(f.getX(), f.getY());
     }
 
-
-    Game.player.clear();
-    Collections.addAll(Game.player, gameCells);
     Game.cells = gameCells;
     Game.food = gameFood;
   }
