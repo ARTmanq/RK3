@@ -17,9 +17,9 @@ import org.jetbrains.annotations.NotNull;
 public class ClientConnectionServer extends Service {
   @NotNull
   private final static Logger log = LogManager.getLogger(MasterServer.class);
-  private final int port;
+  private final Integer port;
 
-  public ClientConnectionServer(int port) {
+  public ClientConnectionServer(Integer port) {
     super("client_connection_service");
     this.port = port;
   }
