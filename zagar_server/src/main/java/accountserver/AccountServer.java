@@ -13,9 +13,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
-  private final int port;
+  private final Integer port;
 
-  public AccountServer(int port) {
+  public AccountServer(Integer port) {
     super("account_server");
     this.port = port;
   }
