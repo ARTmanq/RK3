@@ -28,7 +28,7 @@ public class Mechanics extends Service implements Tickable {
     /*Ticker ticker = new Ticker(this, 1);
     ticker.loop();*/
     while(true){
-      tick(100);
+      tick(50);
     }
   }
 

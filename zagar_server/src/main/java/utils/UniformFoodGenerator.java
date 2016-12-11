@@ -33,7 +33,7 @@ public class UniformFoodGenerator implements FoodGenerator {
         Random random = new Random();
         int foodRadius = (int) Math.sqrt(GameConstants.FOOD_MASS / Math.PI);
         HashSet<Food> food = field.getFoods();
-        for (int i = 0; i < 10/*foodPerSecond*/; i++) {
+        for (int i = 0; i < 4/*foodPerSecond*/; i++) {
           food.add(new Food(
                   foodRadius + random.nextInt(field.getWidth() - 2 * foodRadius),
                   foodRadius + random.nextInt(field.getHeight() - 2 * foodRadius)

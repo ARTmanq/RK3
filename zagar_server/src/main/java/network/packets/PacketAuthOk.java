@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuthOk;
-import protocol.CommandSplit;
 import utils.JSONHelper;
 
 import java.io.IOException;
@@ -16,8 +15,8 @@ public class PacketAuthOk {
   public PacketAuthOk() {
   }
 
-  public void write(@NotNull Session session) throws IOException {
-    String msg = JSONHelper.toJSON(new CommandAuthOk());
+  public void write(@NotNull Session session, int id) throws IOException {
+    String msg = JSONHelper.toJSON(new CommandAuthOk(id));
     log.info("Sending [" + msg + "]");
     session.getRemote().sendString(msg);
   }

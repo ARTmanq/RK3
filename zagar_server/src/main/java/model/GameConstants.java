@@ -5,8 +5,8 @@ package model;
  */
 public interface GameConstants {
   int MAX_PLAYERS_IN_SESSION = 10;
-  int FIELD_WIDTH = 1000;
-  int FIELD_HEIGHT = 1000;
+  int FIELD_WIDTH = 2000;
+  int FIELD_HEIGHT = 2000;
   int FOOD_MASS = 40;
   int DEFAULT_PLAYER_CELL_MASS = 80;
   int VIRUS_MASS = 100;

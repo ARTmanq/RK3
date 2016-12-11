@@ -10,7 +10,6 @@ import network.packets.PacketAuthOk;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuth;
-import utils.IDGenerator;
 import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
@@ -35,7 +34,7 @@ public class PacketHandlerAuth {
       try {
         Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
         ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
-        new PacketAuthOk().write(session);
+        new PacketAuthOk().write(session, player.getId());
         ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
       } catch (IOException e) {
         e.printStackTrace();
