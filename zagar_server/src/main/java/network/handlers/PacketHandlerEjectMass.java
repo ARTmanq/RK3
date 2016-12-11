@@ -20,7 +20,6 @@ public class PacketHandlerEjectMass {
       e.printStackTrace();
       return;
     }
-    //TODO
     @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
     Message message = new EjectMassMsg(new Address("client"), commandEjectMass);
     messageSystem.sendMessage(message);

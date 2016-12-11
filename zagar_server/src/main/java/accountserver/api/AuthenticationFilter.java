@@ -1,6 +1,6 @@
 package accountserver.api;
 
-import org.jetbrains.annotations.NotNull;
+import info.AuthDataStorage;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -14,27 +14,26 @@ import java.io.IOException;
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
   @Override
-  public void filter(@NotNull ContainerRequestContext requestContext) throws IOException {
+  public void filter(ContainerRequestContext requestContext) throws IOException {
 
-    // Get the HTTP Authorization header from the request
     String authorizationHeader =
-        requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+            requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-    // Check if the HTTP Authorization header is present and formatted correctly
     if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
       throw new NotAuthorizedException("Authorization header must be provided");
     }
 
-    // Extract the token from the HTTP Authorization header
     String token = authorizationHeader.substring("Bearer".length()).trim();
 
-    if (!validateToken(token)) {
+    try {
+      validateToken(token);
+    } catch (Exception e) {
       requestContext.abortWith(
-          Response.status(Response.Status.UNAUTHORIZED).build());
+              Response.status(Response.Status.UNAUTHORIZED).build());
     }
   }
 
-  private boolean validateToken(@NotNull String token) {
-    return AuthenticationServlet.validateToken(token);
+  private void validateToken(String token) throws Exception {
+    AuthDataStorage.validateToken(token);
   }
 }

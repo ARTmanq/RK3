@@ -1,6 +1,5 @@
 package model;
 
-import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;

@@ -1,123 +1,108 @@
 package accountserver.api;
 
-/**
- * Created by s.rybalkin on 28.09.2016.
- */
-
+import info.AuthDataStorage;
+import info.Token;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
+import java.sql.SQLClientInfoException;
 
 @Path("/auth")
 public class AuthenticationServlet {
-  @NotNull
   private static final Logger log = LogManager.getLogger(AuthenticationServlet.class);
-
-  @NotNull
-  private static ConcurrentHashMap<String, String> credentials;
-  @NotNull
-  private static ConcurrentHashMap<String, Long> tokens;
-  @NotNull
-  private static ConcurrentHashMap<Long, String> tokensReversed;
-
-  static {
-    credentials = new ConcurrentHashMap<>();
-    credentials.put("admin", "admin");
-    tokens = new ConcurrentHashMap<>();
-    tokens.put("admin", 1L);
-    tokensReversed = new ConcurrentHashMap<>();
-    tokensReversed.put(1L, "admin");
-  }
-
+  //private AuthDataStorage ts = new AuthDataStorage();
   // curl -i
   //      -X POST
   //      -H "Content-Type: application/x-www-form-urlencoded"
   //      -H "Host: {IP}:8080"
-  //      -d "login={}&password={}"
-  // "{IP}:8080/api/register"
-  @NotNull
+  //      -d "user={}&password={}"
+  // "{IP}:8080/auth/register"
   @POST
   @Path("register")
   @Consumes("application/x-www-form-urlencoded")
   @Produces("text/plain")
-  public Response register(@NotNull @FormParam("user") String user,
-                           @NotNull @FormParam("password") String password) {
-
-    if (user == null || password == null) {
-      return Response.status(Response.Status.BAD_REQUEST).build();
-    }
-
-    if (credentials.putIfAbsent(user, password) != null) {
-      return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-    }
-
-    log.info("New user '{}' registered", user);
-    return Response.ok("User " + user + " registered.").build();
-  }
-
-
-  // curl -X POST
-  //      -H "Content-Type: application/x-www-form-urlencoded"
-  //      -H "Host: localhost:8080"
-  //      -d "login=admin&password=admin"
-  // "http://localhost:8080/auth/login"
-  @NotNull
-  @POST
-  @Path("login")
-  @Consumes("application/x-www-form-urlencoded")
-  @Produces("text/plain")
-  public Response login(@NotNull @FormParam("user") String user,
-                        @NotNull @FormParam("password") String password) {
+  public Response register(@FormParam("user") String user,
+                           @FormParam("password") String password) {
 
     if (user == null || password == null) {
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     try {
-      // Authenticate the user using the credentials provided
-      if (!authenticate(user, password)) {
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+      AuthDataStorage.registerNewUser(user, password);
+      log.info("New user '{}' registered", user);
+      return Response.ok("User " + user + " registered.").build();
+    }
+    catch(SQLClientInfoException e){
+      log.info("User with name '{}' already exists.", user);
+      return Response.status(Response.Status.CONFLICT).build();
+    }
+    catch(Exception e){
+      log.info(e.getMessage());
+      return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+    }
+  }
+
+  // curl -X POST
+  //      -H "Content-Type: application/x-www-form-urlencoded"
+  //      -H "Host: localhost:8080"
+  //      -d "user=admin&password=admin"
+  // "http://localhost:8080/auth/login"
+  @POST
+  @Path("login")
+  @Consumes("application/x-www-form-urlencoded")
+  @Produces("text/plain")
+  public Response authenticateUser(@FormParam("user") String user,
+                                   @FormParam("password") String password) {
+
+    if (user == null || password == null) {
+      return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    try {
+      if (!AuthDataStorage.authenticate(user, password)) {
+        return Response.status(Response.Status.NOT_FOUND).build();
       }
-      // Issue a token for the user
-      long token = issueToken(user);
+      Token token = AuthDataStorage.issueToken(user);
       log.info("User '{}' logged in", user);
 
-      // Return the token on the response
-      return Response.ok(Long.toString(token)).build();
+      return Response.ok(Long.toString(token.getId())).build();
 
     } catch (Exception e) {
-      return Response.status(Response.Status.UNAUTHORIZED).build();
+      log.info("Exception");
+      return Response.status(Response.Status.NOT_ACCEPTABLE).build();
     }
   }
 
-  private boolean authenticate(@NotNull String user, @NotNull String password) throws Exception {
-    return password.equals(credentials.get(user));
-  }
-
-  @NotNull
-  private Long issueToken(@NotNull String user) {
-    Long token = tokens.get(user);
-    if (token != null) {
-      return token;
+  //curl -X POST -H
+  // "content-Type:application/x-www-form-urlencoded"
+  // -H "Authorization: Bearer 1"
+  // -H "Host:localhost:8080"
+  // "localhost:8080/auth/logout"
+  @POST
+  @Path("logout")
+  @Produces("text/plain")
+  @Authorized
+  public Response logoutUser(@HeaderParam("Authorization") String authHeader) {
+    try {
+      Token token = new Token(Long.parseLong(authHeader.substring("Bearer".length()).trim()));
+      String userName = AuthDataStorage.logOut(token);
+      log.info("User {} logged out", userName);
+      return Response.ok("User '"+userName+"' logged out").build();
+    } catch (Exception e) {
+      return Response.status(Response.Status.NOT_ACCEPTABLE).build();
     }
-
-    token = ThreadLocalRandom.current().nextLong();
-    tokens.put(user, token);
-    tokensReversed.put(token, user);
-    return token;
   }
 
   public static boolean validateToken(@NotNull String rawToken) {
     Long token = Long.parseLong(rawToken);
-    if (!tokensReversed.containsKey(token)) {
+    if (!AuthDataStorage.tokenExists(token)) {
       return false;
     }
-    log.info("Correct token from '{}'", tokensReversed.get(token));
     return true;
   }
+
 }
