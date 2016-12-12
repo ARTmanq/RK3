@@ -27,4 +27,4 @@ public class PacketAuth {
     log.info("Sending [" + msg + "]");
     Game.socket.session.getRemote().sendString(msg);
   }
-}git 
+}

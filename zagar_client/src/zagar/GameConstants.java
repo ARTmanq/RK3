@@ -16,6 +16,6 @@ public interface GameConstants {
   String DEFAULT_LOGIN = "zAgar";
   @NotNull
   String DEFAULT_PASSWORD = "pass";
-  int SPEED_SCALE_FACTOR = 300;
+  int SPEED_SCALE_FACTOR = 1000;
 
 }
