@@ -2,7 +2,6 @@ package zagar.view;
 
 import org.jetbrains.annotations.NotNull;
 import zagar.Game;
-import zagar.Main;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,7 +11,7 @@ public class Cell {
   public int id;
   public int size;
   @NotNull
-  public String name = "";
+  public final String name;
   public int mass;
   private final boolean virus;
 
@@ -22,6 +21,16 @@ public class Cell {
     this.size = (int)size;
     this.id = id;
     this.virus = isVirus;
+    this.name = "";
+  }
+
+  public Cell(double x, double y, float size, int id, boolean isVirus, String name) {
+    this.x = x;
+    this.y = y;
+    this.size = (int)size;
+    this.id = id;
+    this.virus = isVirus;
+    this.name = name;
   }
 
   public void render(@NotNull Graphics2D g) {
@@ -68,7 +77,8 @@ public class Cell {
       }
 
       if (this.name.length() > 0 || (this.mass > 30 && !this.virus)) {
-        Font font = Main.frame.canvas.fontCells;
+        Font font = new Font("Ubuntu", Font.BOLD, size / name.length());
+        g.setFont(font);
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         FontMetrics fm = img.getGraphics().getFontMetrics(font);
 
@@ -78,9 +88,9 @@ public class Cell {
 
         String mass = this.mass + "";
 
-        int massSize = fm.stringWidth(mass);
+        /*int massSize = fm.stringWidth(mass);  //useless output of mass
 
-        outlineString(g, mass, x + size / 2 - massSize / 2, y + size / 2 + 17);
+        outlineString(g, mass, x + size / 2 - massSize / 2, y + size / 2 + 17);*/
       }
     }
   }

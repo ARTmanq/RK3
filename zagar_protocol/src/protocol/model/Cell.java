@@ -10,6 +10,7 @@ public final class Cell {
   private final float size;
   private int x;
   private int y;
+  private final String name;
 
   public Cell(int cellId, int playerId, boolean isVirus, float size, int x, int y) {
     this.cellId = cellId;
@@ -18,6 +19,17 @@ public final class Cell {
     this.size = size;
     this.x = x;
     this.y = y;
+    this.name = "";
+  }
+
+  public Cell(int cellId, int playerId, boolean isVirus, float size, int x, int y, String name) {
+    this.cellId = cellId;
+    this.playerId = playerId;
+    this.isVirus = isVirus;
+    this.size = size;
+    this.x = x;
+    this.y = y;
+    this.name = name;
   }
 
   public int getPlayerId() {
@@ -42,6 +54,10 @@ public final class Cell {
 
   public float getSize() {
     return size;
+  }
+
+  public String getName() {
+    return name;
   }
 
 }
