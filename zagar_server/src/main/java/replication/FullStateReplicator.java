@@ -12,10 +12,7 @@ import protocol.model.Food;
 import java.io.IOException;
 import java.util.Map;
 
-/**
- * @author Alpi
- * @since 31.10.16
- */
+
 public class FullStateReplicator implements Replicator {
   @Override
   public void replicate() {
@@ -52,11 +49,5 @@ public class FullStateReplicator implements Replicator {
         }
       }
     }
-
-    /*ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions().stream().flatMap(
-        gameSession -> gameSession.getPlayers().stream().flatMap(
-            player -> player.getCells().stream()
-        )
-    ).map(playerCell -> new Cell(playerCell.getId(), ))*/
   }
 }

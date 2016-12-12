@@ -38,7 +38,7 @@ public class Game {
   public static String[] leaderBoard;
 
   /**Other*/
-  public static double zoom = 0.4;
+  public static double zoom = 0.6;
   public static long fps = 60;
   public static int spawnPlayer = -1;
   public static boolean rapidEject;
@@ -125,10 +125,8 @@ public class Game {
 
   public void tick() throws IOException {
     if (socket.session != null && player.size() > 0) {
-      float totalSize = 0;
       int newScore = 0;
       for (Cell c : player) {
-        totalSize += c.size;
         newScore += (c.size * c.size) / 100;
       }
 
@@ -137,24 +135,17 @@ public class Game {
       }
 
       if (socket.session.isOpen()) {
-        float avgX = 0;
-        float avgY = 0;
-        totalSize = 0;
-
+        float avgX = 0, avgY = 0;
         for (Cell c : Game.player) {
           avgX += c.x;
           avgY += c.y;
-          totalSize += c.size;
         }
-
         avgX /= Game.player.size();
         avgY /= Game.player.size();
 
-        float x = avgX;
-        float y = avgY;
-        x += (float) ((GameFrame.mouseX - GameFrame.frame_size.width / 2) / zoom)/10;
-        y += (float) ((GameFrame.mouseY - GameFrame.frame_size.height / 2) / zoom)/10;
-        (new PacketMove(x, y)).write(socket.session);
+        avgX += (float) ((GameFrame.mouseX - GameFrame.frame_size.width / 2) / zoom);
+        avgY += (float) ((GameFrame.mouseY - GameFrame.frame_size.height / 2) / zoom);
+        (new PacketMove(avgX, avgY)).write(socket.session);
 
         if (rapidEject) {
           new PacketEjectMass().write();
@@ -164,7 +155,7 @@ public class Game {
   }
 
   private enum AuthOption {
-    REGISTER, LOGIN;
+    REGISTER, LOGIN
   }
 
   public enum GameState {

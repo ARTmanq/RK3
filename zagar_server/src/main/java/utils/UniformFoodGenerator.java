@@ -3,8 +3,8 @@ package utils;
 import model.Field;
 import model.Food;
 import model.GameConstants;
+import org.eclipse.jetty.util.ConcurrentHashSet;
 
-import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -32,7 +32,7 @@ public class UniformFoodGenerator implements FoodGenerator {
       if (field.getFoods().size() <= threshold) {
         Random random = new Random();
         int foodRadius = (int) Math.sqrt(GameConstants.FOOD_MASS / Math.PI);
-        HashSet<Food> food = field.getFoods();
+        ConcurrentHashSet<Food> food = field.getFoods();
         for (int i = 0; i < 4/*foodPerSecond*/; i++) {
           food.add(new Food(
                   foodRadius + random.nextInt(field.getWidth() - 2 * foodRadius),

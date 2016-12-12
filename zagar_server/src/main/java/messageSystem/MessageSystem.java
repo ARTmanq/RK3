@@ -14,9 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author e.shubin
- */
 public final class MessageSystem {
   private final static Logger log = LogManager.getLogger(MessageSystem.class);
 

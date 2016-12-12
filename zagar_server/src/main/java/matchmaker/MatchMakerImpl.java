@@ -47,6 +47,18 @@ public class MatchMakerImpl implements MatchMaker {
     return null;
   }
 
+  @Override
+  public GameSession getGameSession(String name){
+    for (GameSession session : activeGameSessions){
+      for (Player player : session.getPlayers()){
+        if (player.getName().equals(name)) {
+          return session;
+        }
+      }
+    }
+    return null;
+  }
+
   @NotNull
   public List<GameSession> getActiveGameSessions() {
     return new ArrayList<>(activeGameSessions);

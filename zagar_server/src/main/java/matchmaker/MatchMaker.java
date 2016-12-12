@@ -25,4 +25,6 @@ public interface MatchMaker {
   List<GameSession> getActiveGameSessions();
 
   Player getPlayer(String name);
+
+  GameSession getGameSession(String name);
 }

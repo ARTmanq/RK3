@@ -6,9 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Created by apomosov on 15.05.16.
- */
+
 public abstract class Service extends Thread implements Abonent {
   @NotNull
   private static final Logger log = LogManager.getLogger(Service.class);

@@ -10,8 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * https://shipilev.net/blog/archive/safe-publication/
- *
- * @author apomosov
  */
 public class ApplicationContext {
   private static final @NotNull Logger log = LogManager.getLogger(ApplicationContext.class);

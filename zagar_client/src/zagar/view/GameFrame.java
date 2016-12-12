@@ -11,8 +11,6 @@ public class GameFrame extends JFrame {
   public GameCanvas canvas = new GameCanvas();
   public static double mouseX, mouseY;
   public static Dimension frame_size = new Dimension(1200, 700);
-  public static Dimension real_size = new Dimension(2000, 2000);
-  //public int topLeftCoord =
 
   public GameFrame() {
     setSize(frame_size);

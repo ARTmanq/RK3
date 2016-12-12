@@ -18,9 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-/**
- * Created by apomosov on 14.05.16.
- */
+
 public class MasterServer {
   @NotNull
   private final static Logger log = LogManager.getLogger(MasterServer.class);

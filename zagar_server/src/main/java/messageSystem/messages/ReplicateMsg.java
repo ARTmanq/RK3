@@ -8,12 +8,7 @@ import messageSystem.MessageSystem;
 import network.ClientConnectionServer;
 import replication.Replicator;
 
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
-/**
- * Created by alpie on 15.11.2016.
- */
 public class ReplicateMsg extends Message {
   public static final org.apache.logging.log4j.Logger log = org.apache.logging.log4j.LogManager.getLogger(ReplicateMsg.class);
 

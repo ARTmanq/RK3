@@ -7,7 +7,7 @@ import messageSystem.Abonent;
 import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
-import model.Player;
+import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import protocol.CommandMove;
@@ -28,9 +28,45 @@ public class MoveMsg extends Message {
 
     @Override
     public void exec(Abonent abonent) {
-        log.info("CommandMove to (" + commandMove.getDx() + " ; " + commandMove.getDy() + ") was received");
-        Player player = ApplicationContext.instance().get(MatchMaker.class).getPlayer(this.getFrom().getName());
-        player.getCells().get(0).setX((int)commandMove.getDx());
-        player.getCells().get(0).setY((int)commandMove.getDy());
+        GameSession gameSession = ApplicationContext.instance().get(MatchMaker.class).getGameSession(this.getFrom().getName());
+        if (gameSession == null) {
+            return;
+        }
+
+        Player player = null;
+        for (Player player1 : gameSession.getPlayers()){
+            if (player1.getName().equals(this.getFrom().getName())){
+                player = player1;
+                break;
+            }
+        }
+
+        int new_x = checkCoord((int)commandMove.getDx());
+        int new_y = checkCoord((int)commandMove.getDy());
+
+        player.getCells().get(0).setX(new_x);
+        player.getCells().get(0).setY(new_y);
+        for (Food food : gameSession.getField().getFoods()){
+            for (PlayerCell cell : player.getCells()){
+                if (Math.abs(food.getX() - cell.getX()) < cell.getMass()
+                        && Math.abs(food.getY() - cell.getY()) < cell.getMass()){
+                    gameSession.getField().getFoods().remove(food);
+                }
+            }
+        }
+    }
+
+    private int checkCoord(int coord){
+        int checkedCoord;
+        if (coord > GameConstants.FIELD_WIDTH) {
+            checkedCoord = GameConstants.FIELD_WIDTH;
+        }
+        else if ( coord < 0 ){
+            checkedCoord = 0;
+        }
+        else{
+            checkedCoord = coord;
+        }
+        return checkedCoord;
     }
 }

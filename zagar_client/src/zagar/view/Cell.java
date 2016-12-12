@@ -10,81 +10,57 @@ import java.awt.image.BufferedImage;
 public class Cell {
   public double x, y;
   public int id;
-  public float size;
-  private int r, g, b;
+  public int size;
   @NotNull
   public String name = "";
-  public float sizeRender;
-  public double xRender;
-  public double yRender;
   public int mass;
   private final boolean virus;
-  private float rotation = 0;
 
   public Cell(double x, double y, float size, int id, boolean isVirus) {
     this.x = x;
     this.y = y;
-    this.size = size;
+    this.size = (int)size;
     this.id = id;
     this.virus = isVirus;
-    this.xRender = this.x;
-    this.yRender = this.y;
-    this.sizeRender = this.size;
   }
 
-  public void render(@NotNull Graphics2D g, float scale) {
+  public void render(@NotNull Graphics2D g) {
     if (Game.player.size() > 0) {
-      Color color = new Color(this.r, this.g, this.b);
-      if (scale == 1) {
-        color = new Color((int) (this.r / 1.3), (int) (this.g / 1.3), (int) (this.b / 1.3));
-      }
-      g.setColor(color);
-      int size = (int) ((this.sizeRender * 2f * scale) * Game.zoom);
-
       float avgX = 0;
       float avgY = 0;
-
       for (Cell c : Game.player) {
         if (c != null) {
-          avgX += c.xRender;
-          avgY += c.yRender;
+          avgX += c.x;
+          avgY += c.y;
         }
       }
-
       avgX /= Game.player.size();
       avgY /= Game.player.size();
 
-      int x = (int) ((this.xRender - avgX) * Game.zoom) + GameFrame.frame_size.width / 2 - size / 2;
-      int y = (int) ((this.yRender - avgY) * Game.zoom) + GameFrame.frame_size.height / 2 - size / 2;
+      int x = (int) ((this.x - avgX) * Game.zoom) + GameFrame.frame_size.width / 2;
+      int y = (int) ((this.y - avgY) * Game.zoom) + GameFrame.frame_size.height / 2;
 
-
-      if (x < -size - 30 || x > GameFrame.frame_size.width + 30 || y < -size - 30 || y > GameFrame.frame_size.height + 30) {
-        return;
-      }
-
-      int massRender = (int) ((this.size * this.size) / 100);
       if (virus) {
         Polygon hexagon = new Polygon();
-        int a = 2 * (massRender / 8 + 10);
-        a = Math.min(a, 100);
-        for (int i = 0; i < a; i++) {
+          int sideNumber = 20;
+        for (int i = 0; i < sideNumber; i++) {
           float pi = 3.14f;
           int spike = 0;
           if (i % 2 == 0) {
-            spike = (int) (20 * Math.min(Math.max(1, (massRender / 80f)), 8) * Game.zoom);
+            spike = (int) (20 * Math.min(Math.max(1, (mass / 80f)), 8) * Game.zoom);
           }
-          hexagon.addPoint((int) (x + ((size + spike) / 2) * Math.cos(-rotation + i * 2 * pi / a)) + size / 2, (int) (y + ((size + spike) / 2) * Math.sin(-rotation + i * 2 * pi / a)) + size / 2);
+          hexagon.addPoint((int) (x + ((size + spike) / 2) * Math.cos(i * 2 * pi / sideNumber)) + size / 2,
+                  (int) (y + ((size + spike) / 2) * Math.sin(i * 2 * pi / sideNumber)) + size / 2);
         }
         g.setColor(new Color(150, 150, 0));
         g.fillPolygon(hexagon);
       } else {
         Polygon hexagon = new Polygon();
-        int a = massRender / 20 + 5;
-        a = Math.min(a, 50);
-        for (int i = 0; i < a; i++) {
+        int sideNumber = 12;
+        for (int i = 0; i < sideNumber; i++) {
           float pi = 3.14f;
-          int pointX = (int) (x + (size / 2) * Math.cos(rotation + i * 2 * pi / a)) + size / 2;
-          int pointY = (int) (y + (size / 2) * Math.sin(rotation + i * 2 * pi / a)) + size / 2;
+          int pointX = (int) (x + (size / 2) * Math.cos(i * 2 * pi / sideNumber)) + size / 2;
+          int pointY = (int) (y + (size / 2) * Math.sin(i * 2 * pi / sideNumber)) + size / 2;
           hexagon.addPoint(pointX, pointY);
         }
         g.setColor(new Color(0, 150, 0));

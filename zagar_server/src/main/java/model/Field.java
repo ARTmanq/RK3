@@ -1,9 +1,9 @@
 package model;
 
+import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * @author apomosov
@@ -14,8 +14,7 @@ public class Field {
   @NotNull
   private final ArrayList<Virus> viruses = new ArrayList<>();
   @NotNull
-  private final HashSet<Food> foods = new HashSet<>();
-
+  private final ConcurrentHashSet<Food> foods = new ConcurrentHashSet<>();
   public Field() {
     this.width = GameConstants.FIELD_WIDTH;
     this.height = GameConstants.FIELD_HEIGHT;
@@ -27,7 +26,7 @@ public class Field {
   }
 
   @NotNull
-  public HashSet<Food> getFoods() {
+  public ConcurrentHashSet<Food> getFoods() {
     return foods;
   }
 
