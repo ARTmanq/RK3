@@ -95,6 +95,16 @@ public class AuthenticationServlet {
     }
   }
 
+  public static void logout(String name){
+    try{
+      long token = tokens.get(name);
+      tokens.remove(name);
+      tokensReversed.remove(token);
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
   private boolean authenticate(@NotNull String user, @NotNull String password) throws Exception {
     return password.equals(credentials.get(user));
   }
@@ -120,4 +130,5 @@ public class AuthenticationServlet {
     log.info("Correct token from '{}'", tokensReversed.get(token));
     return true;
   }
+
 }

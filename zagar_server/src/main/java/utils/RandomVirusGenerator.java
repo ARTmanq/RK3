@@ -7,9 +7,6 @@ import model.Virus;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * @author apomosov
- */
 public class RandomVirusGenerator implements VirusGenerator {
   private Field field;
   private final int numberOfViruses;

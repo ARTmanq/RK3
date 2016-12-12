@@ -24,7 +24,8 @@ public interface MatchMaker {
   @NotNull
   List<GameSession> getActiveGameSessions();
 
-  Player getPlayer(String name);
+
+  void leaveGame(@NotNull Player player);
 
   GameSession getGameSession(String name);
 }

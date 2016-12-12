@@ -28,6 +28,7 @@ public class FullStateReplicator implements Replicator {
         numberOfCellsInSession += player.getCells().size();
       }
       Cell[] cells = new Cell[numberOfCellsInSession + GameConstants.NUMBER_OF_VIRUSES];
+
       i = 0;
       for (Player player : gameSession.getPlayers()) {
         for (PlayerCell playerCell : player.getCells()) {

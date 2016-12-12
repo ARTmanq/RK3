@@ -21,6 +21,7 @@ public class PacketHandlerMove {
       e.printStackTrace();
       return;
     }
+
     @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
     Message message = new MoveMsg(new Address(ApplicationContext.instance().get(ClientConnections.class).getPlayer(session).getName()), commandMove);
     messageSystem.sendMessage(message);

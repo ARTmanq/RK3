@@ -1,7 +1,9 @@
 package network;
 
+import accountserver.api.AuthenticationServlet;
 import com.google.gson.JsonObject;
 import main.ApplicationContext;
+import matchmaker.MatchMaker;
 import model.Player;
 import network.handlers.PacketHandlerAuth;
 import network.handlers.PacketHandlerEjectMass;
@@ -47,6 +49,8 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
     for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
       if (!connection.getValue().isOpen()){
+        ApplicationContext.instance().get(MatchMaker.class).leaveGame(connection.getKey());
+        AuthenticationServlet.logout(connection.getKey().getName());
         clientConnections.removeConnection(connection.getKey());
       }
     }

@@ -8,16 +8,10 @@ import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import model.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import protocol.CommandMove;
 
-/**
- * Created by Artem on 11/27/16.
- */
 public class MoveMsg extends Message {
 
-    private final static Logger log = LogManager.getLogger(MoveMsg.class);
     private CommandMove commandMove;
 
     public MoveMsg(Address from, CommandMove commandMove) {
@@ -46,6 +40,7 @@ public class MoveMsg extends Message {
 
         player.getCells().get(0).setX(new_x);
         player.getCells().get(0).setY(new_y);
+
         for (Food food : gameSession.getField().getFoods()){
             for (PlayerCell cell : player.getCells()){
                 if (Math.abs(food.getX() - cell.getX()) < cell.getMass()
