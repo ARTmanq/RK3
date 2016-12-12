@@ -10,9 +10,7 @@ import protocol.model.Food;
 public final class CommandReplicate extends Command {
   @NotNull
   public static final String NAME = "cells";
-  @NotNull
   private final Food[] food;
-  @NotNull
   private final Cell[] cells;
   public CommandReplicate(@NotNull Food[] food, @NotNull Cell[] cells) {
     super(NAME);

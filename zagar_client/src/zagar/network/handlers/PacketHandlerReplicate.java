@@ -33,7 +33,9 @@ public class PacketHandlerReplicate {
     Food[] gameFood = new Food[commandReplicate.getFood().length];
     for (int i = 0; i < commandReplicate.getFood().length; i++) {
       protocol.model.Food f = commandReplicate.getFood()[i];
-      gameFood[i] = new Food(f.getX(), f.getY());
+      if (f != null) {
+        gameFood[i] = new Food(f.getX(), f.getY());
+      }
     }
     Game.food = gameFood;
   }

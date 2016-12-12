@@ -143,11 +143,6 @@ public class Game {
         avgX /= Game.player.size();
         avgY /= Game.player.size();
 
-        /*avgX += (float) ((GameFrame.mouseX - GameFrame.frame_size.width / 2) / zoom);
-        avgY += (float) ((GameFrame.mouseY - GameFrame.frame_size.height / 2) / zoom);
-        (new PacketMove(avgX, avgY)).write(socket.session);*/
-
-
         float newX = (float) ((GameFrame.mouseX - GameFrame.frame_size.width / 2) / zoom);
         float newY = (float) ((GameFrame.mouseY - GameFrame.frame_size.height / 2) / zoom);
 
@@ -155,8 +150,9 @@ public class Game {
           avgX += SPEED_SCALE_FACTOR / Game.player.getFirst().size;
         }
         else {
-          if (newX < -SPEED_SCALE_FACTOR / Game.player.getFirst().size)
+          if (newX < -SPEED_SCALE_FACTOR / Game.player.getFirst().size) {
             avgX -= SPEED_SCALE_FACTOR / Game.player.getFirst().size;
+          }
           else
             avgX += newX;
         }
