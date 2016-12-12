@@ -36,15 +36,8 @@ public class MatchMakerImpl implements MatchMaker {
   }
 
   @Override
-  public Player getPlayer(String name){
-    for (GameSession session : activeGameSessions){
-      for (Player player : session.getPlayers()){
-        if (player.getName().equals(name)) {
-          return player;
-        }
-      }
-    }
-    return null;
+  public void leaveGame(@NotNull Player player){
+    getGameSession(player.getName()).leave(player);
   }
 
   @Override
@@ -70,7 +63,6 @@ public class MatchMakerImpl implements MatchMaker {
   private
   @NotNull
   GameSession createNewGame() {
-    Field field = new Field();
     PlayerPlacer playerPlacer = new RandomPlayerPlacer();
     VirusGenerator virusGenerator = new RandomVirusGenerator(GameConstants.NUMBER_OF_VIRUSES);
     //Ticker ticker = ApplicationContext.instance().get(Ticker.class);

@@ -1,7 +1,5 @@
 package zagar.network.packets;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandMove;
@@ -10,9 +8,6 @@ import zagar.util.JSONHelper;
 import java.io.IOException;
 
 public class PacketMove {
-  @NotNull
-  private static final Logger log = LogManager.getLogger(">>>");
-
   public float x;
   public float y;
 
@@ -23,7 +18,7 @@ public class PacketMove {
 
   public void write(@NotNull Session s) throws IOException {
     String msg = JSONHelper.toJSON(new CommandMove(x, y));
-    log.info("Sending [" + msg + "]");
-    s.getRemote().sendString(msg);//TODO
+    s.getRemote().sendString(msg);
+
   }
 }

@@ -45,6 +45,7 @@ public class ServerConnectionSocket {
   public void onClose(int statusCode, @NotNull String reason) {
     log.info("Closed." + statusCode + "<" + reason + ">");
     this.closeLatch.countDown();
+
   }
 
   @OnWebSocketConnect
@@ -52,7 +53,6 @@ public class ServerConnectionSocket {
     this.session = session;
 
     log.info("Connected!");
-
     new PacketAuth(Game.login, Game.serverToken).write();
   }
 

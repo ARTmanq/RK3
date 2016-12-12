@@ -156,6 +156,7 @@ public class Game {
           avgY += (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.cos(angle));
         else
           avgY -= (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.cos(angle));
+
         
         System.out.println( "WIDTH   " + curWidth + "   HEIGHT   " + curHeight + Math.toDegrees(angle) + "   COS:   " +  Math.cos(angle) + "  SIN:  " + Math.sin(angle));
 

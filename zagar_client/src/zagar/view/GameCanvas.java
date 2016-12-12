@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class GameCanvas extends JPanel {
-  //private static final long serialVersionUID = 5570080027060608254L;
   private BufferedImage screen;
   private Font font = new Font("Ubuntu", Font.BOLD, 30);
   private Font fontLB = new Font("Ubuntu", Font.BOLD, 25);

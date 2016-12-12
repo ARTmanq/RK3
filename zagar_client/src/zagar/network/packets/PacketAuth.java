@@ -1,13 +1,13 @@
 package zagar.network.packets;
 
-import java.io.IOException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuth;
-import zagar.util.JSONHelper;
 import zagar.Game;
+import zagar.util.JSONHelper;
+
+import java.io.IOException;
 
 public class PacketAuth {
   @NotNull
@@ -27,4 +27,4 @@ public class PacketAuth {
     log.info("Sending [" + msg + "]");
     Game.socket.session.getRemote().sendString(msg);
   }
-}
+}git 
