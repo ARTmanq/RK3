@@ -143,29 +143,21 @@ public class Game {
         avgX /= Game.player.size();
         avgY /= Game.player.size();
 
-        float newX = (float) ((GameFrame.mouseX - GameFrame.frame_size.width / 2) / zoom);
-        float newY = (float) ((GameFrame.mouseY - GameFrame.frame_size.height / 2) / zoom);
+        float curWidth = (float) (GameFrame.mouseX - GameFrame.frame_size.width / 2);
+        float curHeight = (float) (GameFrame.mouseY - GameFrame.frame_size.height / 2);
+        float angle = (float) Math.atan(curWidth / curHeight);
 
-        if (newX > SPEED_SCALE_FACTOR / Game.player.getFirst().size) {
-          avgX += SPEED_SCALE_FACTOR / Game.player.getFirst().size;
-        }
-        else {
-          if (newX < -SPEED_SCALE_FACTOR / Game.player.getFirst().size) {
-            avgX -= SPEED_SCALE_FACTOR / Game.player.getFirst().size;
-          }
-          else
-            avgX += newX;
-        }
+        if (curWidth > 0)
+          avgX += (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.sin(angle));
+        else
+          avgX -= (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.sin(angle));
+        if (curHeight > 0)
+          avgY += (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.cos(angle));
+        else
+          avgY -= (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.cos(angle));
 
-        if (newY > SPEED_SCALE_FACTOR / Game.player.getFirst().size) {
-          avgY += SPEED_SCALE_FACTOR / Game.player.getFirst().size;
-        }
-        else {
-          if (newY < -SPEED_SCALE_FACTOR / Game.player.getFirst().size)
-            avgY -= SPEED_SCALE_FACTOR / Game.player.getFirst().size;
-          else
-            avgY += newY;
-        }
+        System.out.println( "WIDTH   " + curWidth + "   HEIGHT   " + curHeight + Math.toDegrees(angle) + "   COS:   " +  Math.cos(angle) + "  SIN:  " + Math.sin(angle));
+
         (new PacketMove(avgX, avgY)).write(socket.session);
 
         if (rapidEject) {
