@@ -143,6 +143,7 @@ public class Game {
         avgX /= Game.player.size();
         avgY /= Game.player.size();
 
+
         float curWidth = (float) (GameFrame.mouseX - GameFrame.frame_size.width / 2);
         float curHeight = (float) (GameFrame.mouseY - GameFrame.frame_size.height / 2);
         float angle = (float) Math.atan(curWidth / curHeight);
@@ -156,9 +157,11 @@ public class Game {
         else
           avgY -= (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.cos(angle));
 
+        
         System.out.println( "WIDTH   " + curWidth + "   HEIGHT   " + curHeight + Math.toDegrees(angle) + "   COS:   " +  Math.cos(angle) + "  SIN:  " + Math.sin(angle));
 
         (new PacketMove(avgX, avgY)).write(socket.session);
+
 
         if (rapidEject) {
           new PacketEjectMass().write();
