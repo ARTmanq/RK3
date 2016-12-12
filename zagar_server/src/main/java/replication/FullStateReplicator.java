@@ -31,7 +31,8 @@ public class FullStateReplicator implements Replicator {
       i = 0;
       for (Player player : gameSession.getPlayers()) {
         for (PlayerCell playerCell : player.getCells()) {
-          cells[i] = new Cell(playerCell.getId(), player.getId(), false, playerCell.getMass(), playerCell.getX(), playerCell.getY());
+          cells[i] = new Cell(playerCell.getId(), player.getId(), false, playerCell.getMass(), playerCell.getX(),
+                  playerCell.getY(), player.getName());
           i++;
         }
       }
