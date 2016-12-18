@@ -56,13 +56,12 @@ public class Cell {
         Polygon hexagon = new Polygon();
           int sideNumber = 20;
         for (int i = 0; i < sideNumber; i++) {
-          float pi = 3.14f;
           int spike = 0;
           if (i % 2 == 0) {
             spike = (int) (20 * Math.min(Math.max(1, (mass / 80f)), 8) * Game.zoom);
           }
-          hexagon.addPoint((int) (x + ((size + spike) / 2) * Math.cos(i * 2 * pi / sideNumber)) + size / 2,
-                  (int) (y + ((size + spike) / 2) * Math.sin(i * 2 * pi / sideNumber)) + size / 2);
+          hexagon.addPoint((int) (x + ((size + spike) / 2) * Math.cos(i * 2 * Math.PI / sideNumber)) + size / 2,
+                  (int) (y + ((size + spike) / 2) * Math.sin(i * 2 * Math.PI/ sideNumber)) + size / 2);
         }
         g.setColor(new Color(150, 150, 0));
         g.fillPolygon(hexagon);
@@ -70,9 +69,8 @@ public class Cell {
         Polygon hexagon = new Polygon();
         int sideNumber = 12;
         for (int i = 0; i < sideNumber; i++) {
-          float pi = 3.14f;
-          int pointX = (int) (x + (size / 2) * Math.cos(i * 2 * pi / sideNumber)) + size / 2;
-          int pointY = (int) (y + (size / 2) * Math.sin(i * 2 * pi / sideNumber)) + size / 2;
+          int pointX = (int) (x + (size / 2) * Math.cos(i * 2 * Math.PI / sideNumber) /  Game.zoom) /*+ size / 2*/;
+          int pointY = (int) (y + (size / 2) * Math.sin(i * 2 * Math.PI / sideNumber) / Game.zoom) /*+ size / 2*/;
           hexagon.addPoint(pointX, pointY);
         }
         g.setColor(new Color(0, 150, 0));
@@ -87,7 +85,9 @@ public class Cell {
 
         int fontSize = fm.stringWidth(this.name);
 
-        outlineString(g, this.name, GameFrame.frame_size.width - fontSize / 2,  GameFrame.frame_size.height);
+
+        outlineString(g, this.name, GameFrame.frame_size.width / 2 - fontSize / 2, GameFrame.frame_size.height / 2);
+
       }
     }
   }
