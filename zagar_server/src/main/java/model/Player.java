@@ -1,6 +1,5 @@
 package model;
 
-import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;
@@ -70,5 +69,13 @@ public class Player {
       return id == ((Player) obj).id;    //TODO: autoimplemented stub
     }
     return false;
+  }
+
+  public int getTotalMass() {
+    int total = 0;
+    for(PlayerCell i : cells) {
+      total += i.getMass();
+    }
+    return total;
   }
 }
