@@ -49,7 +49,7 @@ public class RandomVirusGenerator implements VirusGenerator {
     }*/
 
     try {
-      while (field.getViruses().size() < GameConstants.NUMBER_OF_VIRUSES + 1) {
+      while (field.getViruses().size() < GameConstants.NUMBER_OF_VIRUSES) {
         Random random = new Random();
         int foodRadius = (int) Math.sqrt(GameConstants.VIRUS_MASS / Math.PI);
         ConcurrentHashSet<Virus> virus = field.getViruses();
