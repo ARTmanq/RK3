@@ -15,4 +15,5 @@ public interface GameConstants {
   int NUMBER_OF_VIRUSES = 10;
   float PORTION_OF_FOODMASS_EATEN = 0.1f;
   int FOOD_COUNT = 100;
+  int SPEED_SCALE_FACTOR = 2000;
 }

@@ -14,25 +14,15 @@ import static model.GameConstants.FOOD_COUNT;
  */
 public class UniformFoodGenerator implements FoodGenerator {
   private Field field;
-  private final int threshold;
-  private int foodPerSecond;
-
-  public UniformFoodGenerator(int foodPerSecond, int threshold) {
-    this.threshold = threshold;
-    this.foodPerSecond = foodPerSecond;
-  }
 
   @Override
   public void setField(Field field){
     this.field = field;
   }
 
-
   @Override
-  public void tick(long elapsedNanos) {
+  public void generate() {
     try {
-      //Thread.sleep(elapsedNanos);
-      //foodPerSecond++;
       while (field.getFoods().size() < FOOD_COUNT) {
         Random random = new Random();
         int foodRadius = (int) Math.sqrt(GameConstants.FOOD_MASS / Math.PI);
@@ -46,8 +36,4 @@ public class UniformFoodGenerator implements FoodGenerator {
       e.printStackTrace();
     }
   }
-
-  @Override
-  public Field getField(){return field;}
-
 }

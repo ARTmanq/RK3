@@ -65,9 +65,7 @@ public class MatchMakerImpl implements MatchMaker {
   GameSession createNewGame() {
     PlayerPlacer playerPlacer = new RandomPlayerPlacer();
     VirusGenerator virusGenerator = new RandomVirusGenerator(GameConstants.NUMBER_OF_VIRUSES);
-    //Ticker ticker = ApplicationContext.instance().get(Ticker.class);
-    UniformFoodGenerator foodGenerator = new UniformFoodGenerator(GameConstants.FOOD_PER_SECOND_GENERATION, GameConstants.MAX_FOOD_ON_FIELD);
-    //ticker.registerTickable(foodGenerator);
+    UniformFoodGenerator foodGenerator = new UniformFoodGenerator();
 
     return new GameSessionImpl(foodGenerator, playerPlacer, virusGenerator);
   }

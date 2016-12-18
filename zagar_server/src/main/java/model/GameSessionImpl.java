@@ -31,11 +31,6 @@ public class GameSessionImpl implements GameSession {
     this.virusGenerator = virusGenerator;
     this.virusGenerator.setField(field);
     virusGenerator.generate();
-    //foodGenerator.tick(500);
-
-
-    System.out.println(field.getFoods());
-    //System.out.println("!!!!!!!!!!!!!!!!!");
   }
 
   @Override
@@ -67,5 +62,4 @@ public class GameSessionImpl implements GameSession {
   }
 
   public static FoodGenerator getFoodGenerator(){return foodGenerator;}
-  //public getFoodGenerator(){return f}
 }

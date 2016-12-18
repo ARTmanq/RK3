@@ -31,8 +31,6 @@ public class MasterServer {
     try {
 
       input = new FileInputStream("config.properties");
-
-      // load a properties file
       prop.load(input);
 
     } catch (IOException ex) {

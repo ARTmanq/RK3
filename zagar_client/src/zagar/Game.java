@@ -135,33 +135,9 @@ public class Game {
       }
 
       if (socket.session.isOpen()) {
-        float avgX = 0, avgY = 0;
-        for (Cell c : Game.player) {
-          avgX += c.x;
-          avgY += c.y;
-        }
-        avgX /= Game.player.size();
-        avgY /= Game.player.size();
-
-
-        float curWidth = (float) (GameFrame.mouseX - GameFrame.frame_size.width / 2);
-        float curHeight = (float) (GameFrame.mouseY - GameFrame.frame_size.height / 2);
-        float angle = (float) Math.atan(curWidth / curHeight);
-
-        if (curWidth > 0)
-          avgX += (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.sin(angle));
-        else
-          avgX -= (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.sin(angle));
-        if (curHeight > 0)
-          avgY += (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.cos(angle));
-        else
-          avgY -= (SPEED_SCALE_FACTOR / Game.player.getFirst().size) * Math.abs(Math.cos(angle));
-
-        
-        System.out.println( "WIDTH   " + curWidth + "   HEIGHT   " + curHeight + Math.toDegrees(angle) + "   COS:   " +  Math.cos(angle) + "  SIN:  " + Math.sin(angle));
-
-        (new PacketMove(avgX, avgY)).write(socket.session);
-
+        float dx = (float) (GameFrame.mouseX - GameFrame.frame_size.width / 2);
+        float dy = (float) (GameFrame.mouseY - GameFrame.frame_size.height / 2);
+        (new PacketMove(dx, dy)).write(socket.session);
 
         if (rapidEject) {
           new PacketEjectMass().write();

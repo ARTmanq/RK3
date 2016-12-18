@@ -9,10 +9,10 @@ import utils.SequentialIDGenerator;
 public abstract class Cell {
   public static final IDGenerator idGenerator = new SequentialIDGenerator();
 
-  private int x;
-  private int y;
+  protected int x;
+  protected int y;
   private int radius;
-  private int mass;
+  protected int mass;
 
   public Cell(int x, int y, int mass) {
     this.x = x;

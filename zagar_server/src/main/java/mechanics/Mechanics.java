@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import ticker.Tickable;
-import utils.FoodGenerator;
 
 /**
  * Created by apomosov on 14.05.16.
@@ -52,8 +51,7 @@ public class Mechanics extends Service implements Tickable {
     messageSystem.sendMessage(leadersMessage);
 
     if (GameSessionImpl.getFoodGenerator() != null) {
-      FoodGenerator foodGenerator = GameSessionImpl.getFoodGenerator();
-      foodGenerator.tick(100);
+      GameSessionImpl.getFoodGenerator().generate();
     }
     //execute all messages from queue
     messageSystem.execForService(this);
