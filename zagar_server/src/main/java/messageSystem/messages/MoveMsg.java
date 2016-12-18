@@ -1,7 +1,6 @@
 package messageSystem.messages;
 
 import main.ApplicationContext;
-import matchmaker.MatchMaker;
 import mechanics.Mechanics;
 import messageSystem.Abonent;
 import messageSystem.Address;
@@ -24,18 +23,11 @@ public class MoveMsg extends Message {
 
     @Override
     public void exec(Abonent abonent) {
-        GameSession gameSession = ApplicationContext.instance().get(MatchMaker.class).getGameSession(this.getFrom().getName());
+        GameSession gameSession = super.getGameSession();
         if (gameSession == null) {
             return;
         }
-
-        Player player = null;
-        for (Player player1 : gameSession.getPlayers()){
-            if (player1.getName().equals(this.getFrom().getName())){
-                player = player1;
-                break;
-            }
-        }
+        Player player = super.getPlayer();
 
         calculateNewCoords(player);
 
@@ -52,14 +44,17 @@ public class MoveMsg extends Message {
     }
 
     private void calculateNewCoords(Player player){
-        int avgX = 0, avgY = 0, playerMass = 0;
+        int avgX = 0, avgY = 0, playerMass = 0, size = 0;
         for (PlayerCell cell : player.getCells()) {
-            avgX += cell.getX();
-            avgY += cell.getY();
-            playerMass += cell.getMass();
+            if (cell.getKind() == 0) {
+                avgX += cell.getX();
+                avgY += cell.getY();
+                playerMass += cell.getMass();
+                size++;
+            }
         }
-        avgX /= player.getCells().size();
-        avgY /= player.getCells().size();
+        avgX /= size;
+        avgY /= size;
 
         float dx = commandMove.getDx();
         float dy = commandMove.getDy();
@@ -77,8 +72,8 @@ public class MoveMsg extends Message {
         for (PlayerCell cell : player.getCells()){
             if (cell.getKind() == 0) {
                 cell.setDirectionPoint(avgX, avgY);
-                cell.calculateCoords();
             }
+            cell.calculateCoords();
         }
     }
 }

@@ -27,7 +27,7 @@ public class Mechanics extends Service implements Tickable {
   public void run() {
     log.info(getAddress() + " started");
     while(true){
-      tick(50);
+      tick(60);
     }
   }
 
