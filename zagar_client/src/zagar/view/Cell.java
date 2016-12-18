@@ -68,9 +68,9 @@ public class Cell {
         int sideNumber = 12;
         for (int i = 0; i < sideNumber; i++) {
           float pi = 3.14f;
-          int pointX = (int) (x + (size / 2) * Math.cos(i * 2 * pi / sideNumber)) + size / 2;
-          int pointY = (int) (y + (size / 2) * Math.sin(i * 2 * pi / sideNumber)) + size / 2;
-          hexagon.addPoint(pointX, pointY);
+          int pointX = (int) (x + (size / 2) * Math.cos(i * 2 * pi / sideNumber) /  Game.zoom) /*+ size / 2*/;
+          int pointY = (int) (y + (size / 2) * Math.sin(i * 2 * pi / sideNumber) / Game.zoom) /*+ size / 2*/;
+          hexagon.addPoint(pointX/* - size / 2*/, pointY/* - size / 2*/); // - size , - size
         }
         g.setColor(new Color(0, 150, 0));
         g.fillPolygon(hexagon);
@@ -84,7 +84,9 @@ public class Cell {
 
         int fontSize = fm.stringWidth(this.name);
 
-        outlineString(g, this.name, x + size / 2 - fontSize / 2, y + size / 2);
+      //  outlineString(g, this.name, x + size / 2 - fontSize / 2, y + size / 2);
+
+        outlineString(g, this.name, GameFrame.frame_size.width / 2 - fontSize / 2, GameFrame.frame_size.height / 2);
 
         String mass = this.mass + "";
 
