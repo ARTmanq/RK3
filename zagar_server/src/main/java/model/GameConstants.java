@@ -16,4 +16,6 @@ public interface GameConstants {
   float PORTION_OF_FOODMASS_EATEN = 0.1f;
   int FOOD_COUNT = 100;
   int SPEED_SCALE_FACTOR = 2000;
+  int EJECTED_MASS = 40;
+  int EJECT_DISTANCE_SCALE = 60;
 }

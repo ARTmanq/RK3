@@ -11,8 +11,9 @@ public final class Cell {
   private int x;
   private int y;
   private final String name;
+  private final boolean ejectedMass;
 
-  public Cell(int cellId, int playerId, boolean isVirus, float size, int x, int y) {
+  public Cell(int cellId, int playerId, boolean isVirus, boolean ejectedMass, float size, int x, int y) {
     this.cellId = cellId;
     this.playerId = playerId;
     this.isVirus = isVirus;
@@ -20,9 +21,10 @@ public final class Cell {
     this.x = x;
     this.y = y;
     this.name = "";
+    this.ejectedMass = ejectedMass;
   }
 
-  public Cell(int cellId, int playerId, boolean isVirus, float size, int x, int y, String name) {
+  public Cell(int cellId, int playerId, boolean isVirus, boolean ejectedMass, float size, int x, int y, String name) {
     this.cellId = cellId;
     this.playerId = playerId;
     this.isVirus = isVirus;
@@ -30,6 +32,7 @@ public final class Cell {
     this.x = x;
     this.y = y;
     this.name = name;
+    this.ejectedMass = ejectedMass;
   }
 
   public int getPlayerId() {
@@ -55,6 +58,8 @@ public final class Cell {
   public float getSize() {
     return size;
   }
+
+  public boolean getEjectedMass() {return ejectedMass; }
 
   public String getName() {
     return name;

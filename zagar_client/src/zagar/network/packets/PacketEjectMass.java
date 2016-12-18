@@ -1,24 +1,30 @@
 package zagar.network.packets;
 
+import protocol.CommandEjectMass;
+import zagar.Game;
+import zagar.util.JSONHelper;
+import zagar.view.Cell;
+import zagar.view.GameFrame;
+
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import protocol.CommandEjectMass;
-import zagar.util.JSONHelper;
-import zagar.Game;
-
 public class PacketEjectMass {
-  @NotNull
-  private static final Logger log = LogManager.getLogger(">>>");
-
   public PacketEjectMass() {
   }
 
   public void write() throws IOException {
-    String msg = JSONHelper.toJSON(new CommandEjectMass());
-    log.info("Sending [" + msg + "]");
-    Game.socket.session.getRemote().sendString(msg);
+    if (Game.player.size() != 0){
+      int avgX = 0, avgY = 0;
+      for (Cell c : Game.player) {
+        if (c != null && !c.ejectedMass) {
+          avgX += c.x;
+          avgY += c.y;
+        }
+        float mouseX = (float)((GameFrame.mouseX - GameFrame.frame_size.width / 2) / Game.zoom + avgX);
+        float mouseY = (float)((GameFrame.mouseY - GameFrame.frame_size.height / 2) / Game.zoom + avgY);
+        String msg = JSONHelper.toJSON(new CommandEjectMass(mouseX, mouseY));
+        Game.socket.session.getRemote().sendString(msg);
+      }
+    }
   }
 }

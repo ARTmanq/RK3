@@ -5,6 +5,7 @@ import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.EjectMassMsg;
+import network.ClientConnections;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandEjectMass;
@@ -20,9 +21,8 @@ public class PacketHandlerEjectMass {
       e.printStackTrace();
       return;
     }
-    //TODO
     @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
-    Message message = new EjectMassMsg(new Address("client"), commandEjectMass);
+    Message message = new EjectMassMsg(new Address(ApplicationContext.instance().get(ClientConnections.class).getPlayer(session).getName()), commandEjectMass);
     messageSystem.sendMessage(message);
   }
 }

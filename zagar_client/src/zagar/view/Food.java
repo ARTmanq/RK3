@@ -25,16 +25,16 @@ public class Food {
         if (Game.food.length > 0) {
             g.setColor(new Color(this.r, this.g, this.b));
 
-            float avgX = 0;
-            float avgY = 0;
+            float avgX = 0, avgY = 0, playerSize = 0;
             for (Cell c : Game.player) {
-                if (c != null) {
+                if (c != null && !c.ejectedMass) {
                     avgX += c.x;
                     avgY += c.y;
+                    playerSize++;
                 }
             }
-            avgX /= Game.player.size();
-            avgY /= Game.player.size();
+            avgX /= playerSize;
+            avgY /= playerSize;
 
             int x = (int) ((this.x - avgX) * Game.zoom) + GameFrame.frame_size.width / 2;
             int y = (int) ((this.y - avgY) * Game.zoom) + GameFrame.frame_size.height / 2;

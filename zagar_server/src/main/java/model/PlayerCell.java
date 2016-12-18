@@ -15,6 +15,11 @@ public class PlayerCell extends Cell {
     this.id = id;
   }
 
+  public PlayerCell(int id, int x, int y, int mass){
+    super(x, y, mass);
+    this.id = id;
+  }
+
   public int getId() {
     return id;
   }
@@ -43,6 +48,9 @@ public class PlayerCell extends Cell {
   public void calculateCoords(){
     float dx = directionPointX - x;
     float dy = directionPointY - y;
+    if (dx == 0 && dy == 0){
+      return;
+    }
     float angle = (dy != 0)? (float) Math.atan(dx / dy) : (float)Math.PI / 2;
 
     if (dx > 0)
@@ -56,6 +64,39 @@ public class PlayerCell extends Cell {
 
     x = checkCoord(x);
     y = checkCoord(y);
+
+    if (kind == 1 && Math.abs(x - directionPointX) < SPEED_SCALE_FACTOR/mass
+            && Math.abs(y - directionPointY) < SPEED_SCALE_FACTOR/mass){
+      directionPointX = x;
+      directionPointY = y;
+    }
+  }
+
+  public int calculateEjectMassX(float pointX, float pointY){
+    float dx = pointX - x;
+    float dy = pointY - y;
+    float angle = (dy != 0)? (float) Math.atan(dx / dy) : (float)Math.PI / 2;
+    int directionX = x;
+
+    if (dx > 0)
+      directionX += (SPEED_SCALE_FACTOR * GameConstants.EJECT_DISTANCE_SCALE / mass) * Math.abs(Math.sin(angle));
+    else
+      directionX -= (SPEED_SCALE_FACTOR * GameConstants.EJECT_DISTANCE_SCALE / mass) * Math.abs(Math.sin(angle));
+
+    return checkCoord(directionX);
+  }
+
+  public int calculateEjectMassY(float pointX, float pointY){
+    float dx = pointX - x;
+    float dy = pointY - y;
+    float angle = (dy != 0)? (float) Math.atan(dx / dy) : (float)Math.PI / 2;
+    int directionY = y;
+
+    if (dy > 0)
+      directionY += (SPEED_SCALE_FACTOR * GameConstants.EJECT_DISTANCE_SCALE / mass) * Math.abs(Math.cos(angle));
+    else
+      directionY -= (SPEED_SCALE_FACTOR * GameConstants.EJECT_DISTANCE_SCALE / mass) * Math.abs(Math.cos(angle));
+    return checkCoord(directionY);
   }
 
   private int checkCoord(int coord){

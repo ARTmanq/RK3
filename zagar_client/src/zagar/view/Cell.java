@@ -14,37 +14,40 @@ public class Cell {
   public final String name;
   public int mass;
   private final boolean virus;
+  public boolean ejectedMass;
 
-  public Cell(double x, double y, float size, int id, boolean isVirus) {
+  public Cell(double x, double y, float size, int id, boolean isVirus, boolean isEjectedMass) {
     this.x = x;
     this.y = y;
     this.size = (int)size;
     this.id = id;
     this.virus = isVirus;
     this.name = "";
+    this.ejectedMass = isEjectedMass;
   }
 
-  public Cell(double x, double y, float size, int id, boolean isVirus, String name) {
+  public Cell(double x, double y, float size, int id, boolean isVirus, boolean isEjectedMass, String name) {
     this.x = x;
     this.y = y;
     this.size = (int)size;
     this.id = id;
     this.virus = isVirus;
     this.name = name;
+    this.ejectedMass = isEjectedMass;
   }
 
   public void render(@NotNull Graphics2D g) {
     if (Game.player.size() > 0) {
-      float avgX = 0;
-      float avgY = 0;
+      float avgX = 0, avgY = 0, playerSize = 0;
       for (Cell c : Game.player) {
-        if (c != null) {
+        if (c != null && !c.ejectedMass) {
           avgX += c.x;
           avgY += c.y;
+          playerSize++;
         }
       }
-      avgX /= Game.player.size();
-      avgY /= Game.player.size();
+      avgX /= playerSize;
+      avgY /= playerSize;
 
       int x = (int) ((this.x - avgX) * Game.zoom) + GameFrame.frame_size.width / 2;
       int y = (int) ((this.y - avgY) * Game.zoom) + GameFrame.frame_size.height / 2;
@@ -74,13 +77,14 @@ public class Cell {
         g.fillPolygon(hexagon);
       }
 
-      if (this.name.length() > 0 || (this.mass > 30 && !this.virus)) {
+      if ((this.name.length() > 0 || (this.mass > 30 && !this.virus)) && !ejectedMass) {
         Font font = new Font("Ubuntu", Font.BOLD, size / name.length());
         g.setFont(font);
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         FontMetrics fm = img.getGraphics().getFontMetrics(font);
 
         int fontSize = fm.stringWidth(this.name);
+
 
         outlineString(g, this.name, GameFrame.frame_size.width / 2 - fontSize / 2, GameFrame.frame_size.height / 2);
 
