@@ -17,23 +17,25 @@ public class GameSessionImpl implements GameSession {
   @NotNull
   private final List<Player> players = new ArrayList<>();
   @NotNull
-  private final FoodGenerator foodGenerator;
+  private static FoodGenerator foodGenerator;
   @NotNull
   private final PlayerPlacer playerPlacer;
   @NotNull
   private final VirusGenerator virusGenerator;
 
   public GameSessionImpl(@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer, @NotNull VirusGenerator virusGenerator) {
-    this.foodGenerator = foodGenerator;
-    this.foodGenerator.setField(field);
+    GameSessionImpl.foodGenerator = foodGenerator;
+    GameSessionImpl.foodGenerator.setField(field);
     this.playerPlacer = playerPlacer;
     this.playerPlacer.setField(field);
     this.virusGenerator = virusGenerator;
     this.virusGenerator.setField(field);
     virusGenerator.generate();
-    foodGenerator.tick(500);
+    //foodGenerator.tick(500);
+
 
     System.out.println(field.getFoods());
+    //System.out.println("!!!!!!!!!!!!!!!!!");
   }
 
   @Override
@@ -63,4 +65,7 @@ public class GameSessionImpl implements GameSession {
         "id=" + id +
         '}';
   }
+
+  public static FoodGenerator getFoodGenerator(){return foodGenerator;}
+  //public getFoodGenerator(){return f}
 }

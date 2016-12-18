@@ -46,8 +46,8 @@ public class MoveMsg extends Message {
                 if (Math.abs(food.getX() - cell.getX()) < cell.getMass()
                         && Math.abs(food.getY() - cell.getY()) < cell.getMass()){
                     gameSession.getField().getFoods().remove(food);
-                    player.getCells().get(0).setMass(player.getCells().get(0).getMass() +
-                            (int)GameConstants.PORTION_OF_FOODMASS_EATEN * food.getMass());
+                    player.getCells().get(0).setMass((int)(player.getCells().get(0).getMass() +
+                            GameConstants.PORTION_OF_FOODMASS_EATEN * food.getMass()));
                 }
             }
         }

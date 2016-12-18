@@ -6,10 +6,12 @@ import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.LeaderBoardMsg;
 import messageSystem.messages.ReplicateMsg;
+import model.GameSessionImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import ticker.Tickable;
+import utils.FoodGenerator;
 
 /**
  * Created by apomosov on 14.05.16.
@@ -49,7 +51,10 @@ public class Mechanics extends Service implements Tickable {
     Message leadersMessage = new LeaderBoardMsg(this.getAddress());
     messageSystem.sendMessage(leadersMessage);
 
-
+    if (GameSessionImpl.getFoodGenerator() != null) {
+      FoodGenerator foodGenerator = GameSessionImpl.getFoodGenerator();
+      foodGenerator.tick(100);
+    }
     //execute all messages from queue
     messageSystem.execForService(this);
   }

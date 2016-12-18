@@ -12,16 +12,20 @@ import protocol.model.Food;
 import java.io.IOException;
 import java.util.Map;
 
+import static model.GameConstants.FOOD_COUNT;
+
 
 public class FullStateReplicator implements Replicator {
   @Override
   public void replicate() {
     for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
-      Food[] food = new Food[gameSession.getField().getFoods().size()];
+      //Food[] food = new Food[gameSession.getField().getFoods().size()];
+      Food[] food = new Food[FOOD_COUNT];
       int i = 0;
       for(model.Food elem : gameSession.getField().getFoods()){
           food[i] = new Food(elem.getX(), elem.getY());
           i++;
+        //System.out.println(food.length);
       }
       int numberOfCellsInSession = 0;
       for (Player player : gameSession.getPlayers()) {

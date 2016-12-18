@@ -13,5 +13,6 @@ public interface GameConstants {
   int FOOD_PER_SECOND_GENERATION = 1;
   int MAX_FOOD_ON_FIELD = 100;
   int NUMBER_OF_VIRUSES = 10;
-  float PORTION_OF_FOODMASS_EATEN = 1f;
+  float PORTION_OF_FOODMASS_EATEN = 0.1f;
+  int FOOD_COUNT = 100;
 }
