@@ -53,6 +53,9 @@ public class Mechanics extends Service implements Tickable {
     if (GameSessionImpl.getFoodGenerator() != null) {
       GameSessionImpl.getFoodGenerator().generate();
     }
+    /*if (GameSessionImpl.getVirusGenerator() != null) {
+      GameSessionImpl.getVirusGenerator().generate();
+    }*/
     //execute all messages from queue
     messageSystem.execForService(this);
   }

@@ -42,8 +42,10 @@ public class FullStateReplicator implements Replicator {
         }
       }
       for (Virus virus: gameSession.getField().getViruses()) {
+        if (i < 11) {
           cells[i] = new Cell(-1, -1, true, virus.getMass(), virus.getX(), virus.getY());
           i++;
+        }
       }
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
         if (gameSession.getPlayers().contains(connection.getKey())) {

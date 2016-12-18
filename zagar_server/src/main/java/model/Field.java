@@ -3,8 +3,6 @@ package model;
 import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 /**
  * @author apomosov
  */
@@ -12,7 +10,7 @@ public class Field {
   private final int width;
   private final int height;
   @NotNull
-  private final ArrayList<Virus> viruses = new ArrayList<>();
+  private final ConcurrentHashSet<Virus> viruses = new ConcurrentHashSet<>();
   @NotNull
   private final ConcurrentHashSet<Food> foods = new ConcurrentHashSet<>();
   public Field() {
@@ -21,7 +19,7 @@ public class Field {
   }
 
   @NotNull
-  public ArrayList<Virus> getViruses() {
+  public ConcurrentHashSet<Virus> getViruses() {
     return viruses;
   }
 

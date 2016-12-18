@@ -21,15 +21,15 @@ public class GameSessionImpl implements GameSession {
   @NotNull
   private final PlayerPlacer playerPlacer;
   @NotNull
-  private final VirusGenerator virusGenerator;
+  public static VirusGenerator virusGenerator;
 
   public GameSessionImpl(@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer, @NotNull VirusGenerator virusGenerator) {
     GameSessionImpl.foodGenerator = foodGenerator;
     GameSessionImpl.foodGenerator.setField(field);
     this.playerPlacer = playerPlacer;
     this.playerPlacer.setField(field);
-    this.virusGenerator = virusGenerator;
-    this.virusGenerator.setField(field);
+    GameSessionImpl.virusGenerator = virusGenerator;
+    GameSessionImpl.virusGenerator.setField(field);
     virusGenerator.generate();
   }
 
@@ -62,4 +62,7 @@ public class GameSessionImpl implements GameSession {
   }
 
   public static FoodGenerator getFoodGenerator(){return foodGenerator;}
+
+  public static VirusGenerator getVirusGenerator(){return virusGenerator;}
+
 }
