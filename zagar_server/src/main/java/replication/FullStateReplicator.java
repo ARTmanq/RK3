@@ -21,9 +21,9 @@ public class FullStateReplicator implements Replicator {
     for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
       Food[] food = new Food[FOOD_COUNT];
       int i = 0;
-      for(model.Food elem : gameSession.getField().getFoods()){
-          food[i] = new Food(elem.getX(), elem.getY());
-          i++;
+      for (model.Food elem : gameSession.getField().getFoods()) {
+        food[i] = new Food(elem.getX(), elem.getY());
+        i++;
       }
       int numberOfCellsInSession = 0;
       for (Player player : gameSession.getPlayers()) {
@@ -39,12 +39,11 @@ public class FullStateReplicator implements Replicator {
           i++;
         }
       }
-      for (Virus virus: gameSession.getField().getViruses()) {
-        if (i < 11){
+      for (Virus virus : gameSession.getField().getViruses()) {
+        if (i < 11) {
           cells[i] = new Cell(-1, -1, true, false, virus.getMass(), virus.getX(), virus.getY());
           i++;
         }
-      }
       }
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
         if (gameSession.getPlayers().contains(connection.getKey())) {
