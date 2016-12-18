@@ -21,9 +21,6 @@ public final class MessageSystem {
   private final @NotNull Map<Class<?>, Service> services = new ConcurrentHashMap<>();
 
 
-  public MessageSystem() {
-  }
-
   public void registerService(Class<?> type, Service service) {
     services.put(type, service);
     messages.putIfAbsent(service.getAddress(), new LinkedBlockingQueue<>());

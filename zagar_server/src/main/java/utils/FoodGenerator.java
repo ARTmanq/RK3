@@ -1,13 +1,11 @@
 package utils;
 
 import model.Field;
-import ticker.Tickable;
 
 /**
  * @author apomosov
  */
-public interface FoodGenerator extends Tickable {
+public interface FoodGenerator {
     void setField(Field field);
-
-    Object getField();
+    void generate();
 }

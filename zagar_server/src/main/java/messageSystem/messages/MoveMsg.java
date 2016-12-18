@@ -10,6 +10,8 @@ import messageSystem.MessageSystem;
 import model.*;
 import protocol.CommandMove;
 
+import static model.GameConstants.SPEED_SCALE_FACTOR;
+
 public class MoveMsg extends Message {
 
     private CommandMove commandMove;
@@ -35,11 +37,7 @@ public class MoveMsg extends Message {
             }
         }
 
-        int new_x = checkCoord((int)commandMove.getDx());
-        int new_y = checkCoord((int)commandMove.getDy());
-
-        player.getCells().get(0).setX(new_x);
-        player.getCells().get(0).setY(new_y);
+        calculateNewCoords(player);
 
         for (Food food : gameSession.getField().getFoods()){
             for (PlayerCell cell : player.getCells()){
@@ -53,17 +51,34 @@ public class MoveMsg extends Message {
         }
     }
 
-    private int checkCoord(int coord){
-        int checkedCoord;
-        if (coord > GameConstants.FIELD_WIDTH) {
-            checkedCoord = GameConstants.FIELD_WIDTH;
+    private void calculateNewCoords(Player player){
+        int avgX = 0, avgY = 0, playerMass = 0;
+        for (PlayerCell cell : player.getCells()) {
+            avgX += cell.getX();
+            avgY += cell.getY();
+            playerMass += cell.getMass();
         }
-        else if ( coord < 0 ){
-            checkedCoord = 0;
+        avgX /= player.getCells().size();
+        avgY /= player.getCells().size();
+
+        float dx = commandMove.getDx();
+        float dy = commandMove.getDy();
+        float angle = (dy != 0)? (float) Math.atan(dx / dy) : (float)Math.PI / 2;
+
+        if (dx > 0)
+            avgX += (SPEED_SCALE_FACTOR / playerMass) * Math.abs(Math.sin(angle));
+        else
+            avgX -= (SPEED_SCALE_FACTOR / playerMass) * Math.abs(Math.sin(angle));
+        if (dy > 0)
+            avgY += (SPEED_SCALE_FACTOR / playerMass) * Math.abs(Math.cos(angle));
+        else
+            avgY -= (SPEED_SCALE_FACTOR / playerMass) * Math.abs(Math.cos(angle));
+
+        for (PlayerCell cell : player.getCells()){
+            if (cell.getKind() == 0) {
+                cell.setDirectionPoint(avgX, avgY);
+                cell.calculateCoords();
+            }
         }
-        else{
-            checkedCoord = coord;
-        }
-        return checkedCoord;
     }
 }
