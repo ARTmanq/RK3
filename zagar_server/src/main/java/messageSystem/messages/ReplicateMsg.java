@@ -18,7 +18,7 @@ public class ReplicateMsg extends Message {
 
   @Override
   public void exec(Abonent abonent) {
-    log.debug("ReplicationMsg exec() call");
+//    log.debug("ReplicationMsg exec() call");
     ApplicationContext.instance().get(Replicator.class).replicate();
   }
 }

@@ -36,7 +36,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
   @Override
   public void onWebSocketText(@NotNull String message) {
     super.onWebSocketText(message);
-    log.info("Received packet: " + message);
+////    log.info("Received packet: " + message);
     if (getSession().isOpen()) {
       handlePacket(message);
     }

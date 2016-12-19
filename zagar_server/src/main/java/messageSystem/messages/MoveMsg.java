@@ -86,36 +86,29 @@ public class MoveMsg extends Message {
     }
 
     private void boomSplit(Player player){
-        for (int i = 0; i < player.getCells().size(); i++){
-            if ((player.getCells().get(i).getMass() / 2) < GameConstants.DEFAULT_PLAYER_CELL_MASS){
+        for (int i = 0; i < player.getCells().size(); i++) {
+            if ((player.getCells().get(i).getMass() / 2) < GameConstants.DEFAULT_PLAYER_CELL_MASS) {
                 continue;
             }
             //подсчитать количество частей, на которых поделить
             //запустить цикл с рандомом
-            int newCellsNumber = player.getCells().get(i).getMass() / GameConstants.DEFAULT_PLAYER_CELL_MASS - 1;
-            for (int j = 0; j < newCellsNumber; j++){
-                PlayerCell newCell = new PlayerCell(Cell.idGenerator.next(),
-                        player.getCells().get(i).getX(), player.getCells().get(i).getY(),
-                        player.getCells().get(i).getMass() / newCellsNumber);
 
-                newCell.setDirectionPoint(player.getCells().get(i).calculateEjectSplitX((int) (2000 * Math.random()),(int) (2000 * Math.random()), false),
-                        player.getCells().get(i).calculateEjectSplitY((int) (2000 * Math.random()), (int) (2000 * Math.random()), false));
+            int newCellsNumber = player.getCells().get(i).getMass() / GameConstants.DEFAULT_PLAYER_CELL_MASS;
+            if (newCellsNumber > 0) {
+                System.out.println("!!!!!!!!!!!!!!" + newCellsNumber);
+                for (int j = 0; j < newCellsNumber; j++) {
+                    PlayerCell newCell = new PlayerCell(Cell.idGenerator.next(),
+                            player.getCells().get(i).getX(), player.getCells().get(i).getY(),
+                            player.getCells().get(i).getMass() / newCellsNumber);
 
-                newCell.setKind(2);
-                player.getCells().add(newCell);
+                    newCell.setDirectionPoint(player.getCells().get(i).calculateEjectSplitX((int) (2000 * Math.random()), (int) (2000 * Math.random()), false),
+                            player.getCells().get(i).calculateEjectSplitY((int) (2000 * Math.random()), (int) (2000 * Math.random()), false));
+
+                    newCell.setKind(2);
+                    player.getCells().add(newCell);
+                }
+                player.getCells().get(i).setMass(player.getCells().get(i).getMass() / newCellsNumber);
             }
-            player.getCells().get(i).setMass(player.getCells().get(i).getMass() / newCellsNumber);
-
-            // PlayerCell newCell = new PlayerCell(Cell.idGenerator.next(),
-           //         player.getCells().get(i).getX(), player.getCells().get(i).getY(),
-           //         player.getCells().get(i).getMass() / 2);
-//
-           // newCell.setDirectionPoint(player.getCells().get(i).calculateEjectSplitX( 100, 100, false),
-           //         player.getCells().get(i).calculateEjectSplitY(100, 100, false));
-//
-           // newCell.setKind(2);
-           // player.getCells().add(newCell);
-           // player.getCells().get(i).setMass(player.getCells().get(i).getMass() / 2);
         }
     }
 

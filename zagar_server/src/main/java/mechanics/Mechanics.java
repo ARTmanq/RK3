@@ -41,12 +41,12 @@ public class Mechanics extends Service implements Tickable {
       e.printStackTrace();
     }
 
-    log.info("Start replication");
+//    log.info("Start replication");
     @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
     Message message = new ReplicateMsg(this.getAddress());
     messageSystem.sendMessage(message);
 
-    log.info("Start getting leaders");
+//    log.info("Start getting leaders");
     Message leadersMessage = new LeaderBoardMsg(this.getAddress());
     messageSystem.sendMessage(leadersMessage);
 
