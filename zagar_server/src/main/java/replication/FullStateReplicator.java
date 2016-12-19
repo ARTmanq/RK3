@@ -34,13 +34,13 @@ public class FullStateReplicator implements Replicator {
       i = 0;
       for (Player player : gameSession.getPlayers()) {
         for (PlayerCell playerCell : player.getCells()) {
-          cells[i] = new Cell(playerCell.getId(), player.getId(), false, playerCell.getKind() == 1,
+          cells[i] = new Cell(playerCell.getId(), player.getId(), playerCell.getKind(),
                   playerCell.getMass(), playerCell.getX(), playerCell.getY(), player.getName());
           i++;
         }
       }
       for (Virus virus: gameSession.getField().getViruses()) {
-          cells[i] = new Cell(-1, -1, true, false, virus.getMass(), virus.getX(), virus.getY());
+          cells[i] = new Cell(-1, -1, -1, virus.getMass(), virus.getX(), virus.getY());
           i++;
       }
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {

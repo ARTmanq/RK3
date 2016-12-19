@@ -16,7 +16,7 @@ public class PacketEjectMass {
     if (Game.player.size() != 0){
       int avgX = 0, avgY = 0;
       for (Cell c : Game.player) {
-        if (c != null && !c.ejectedMass) {
+        if (c != null && c.kind != 1) {
           avgX += c.x;
           avgY += c.y;
         }

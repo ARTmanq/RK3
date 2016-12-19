@@ -37,8 +37,8 @@ public class EjectMassMsg extends Message{
                     player.getCells().get(i).getX(), player.getCells().get(i).getY(),
                     GameConstants.EJECTED_MASS);
 
-            newCell.setDirectionPoint(player.getCells().get(i).calculateEjectMassX(commandEjectMass.getMouseX(), commandEjectMass.getMouseY()),
-                    player.getCells().get(i).calculateEjectMassY(commandEjectMass.getMouseX(), commandEjectMass.getMouseY()));
+            newCell.setDirectionPoint(player.getCells().get(i).calculateEjectSplitX(commandEjectMass.getMouseX(), commandEjectMass.getMouseY(), true),
+                    player.getCells().get(i).calculateEjectSplitY(commandEjectMass.getMouseX(), commandEjectMass.getMouseY(), true));
 
             newCell.setKind(1);
             player.getCells().add(newCell);

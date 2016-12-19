@@ -60,7 +60,7 @@ public class MoveMsg extends Message {
     private void calculateNewCoords(Player player){
         int avgX = 0, avgY = 0, playerMass = 0, size = 0;
         for (PlayerCell cell : player.getCells()) {
-            if (cell.getKind() == 0) {
+            if (cell.getKind() != 1) {
                 avgX += cell.getX();
                 avgY += cell.getY();
                 playerMass += cell.getMass();

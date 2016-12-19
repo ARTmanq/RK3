@@ -10,20 +10,25 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 
 public class KeyboardListener implements KeyListener {
+  private boolean keyWPressed;
+  private boolean keySPACEPressed;
+
   @Override
   public void keyPressed(@NotNull KeyEvent e) {
     try {
       if (Game.socket != null && Game.socket.session != null) {
         if (Game.socket.session.isOpen()) {
-          if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+          if (e.getKeyCode() == KeyEvent.VK_SPACE && !keySPACEPressed) {
+            keySPACEPressed = true;
             new PacketSplit().write();
           }
-          if (e.getKeyCode() == KeyEvent.VK_W) {
+          if (e.getKeyCode() == KeyEvent.VK_W && !keyWPressed) {
+            keyWPressed = true;
             new PacketEjectMass().write();
           }
-          /*if (e.getKeyCode() == KeyEvent.VK_T) {
-            Game.rapidEject = true;
-          }*/
+            /*if (e.getKeyCode() == KeyEvent.VK_T) {
+              Game.rapidEject = true;
+            }*/
         }
       }
     } catch (IOException ioEx) {
@@ -33,11 +38,24 @@ public class KeyboardListener implements KeyListener {
 
   @Override
   public void keyReleased(@NotNull KeyEvent e) {
-    if (Game.socket != null && Game.socket.session != null) {
+    /*if (Game.socket != null && Game.socket.session != null) {
       if (Game.socket.session.isOpen()) {
         if (e.getKeyCode() == KeyEvent.VK_T) {
           //Game.rapidEject = false;
         }
+      }
+    }*/
+    if (Game.socket != null && Game.socket.session != null) {
+      if (Game.socket.session.isOpen()) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+          keySPACEPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+          keyWPressed = false;
+        }
+        /*if (e.getKeyCode() == KeyEvent.VK_T) {
+          Game.rapidEject = true;
+        }*/
       }
     }
   }
@@ -45,4 +63,5 @@ public class KeyboardListener implements KeyListener {
   @Override
   public void keyTyped(KeyEvent e) {
   }
+
 }

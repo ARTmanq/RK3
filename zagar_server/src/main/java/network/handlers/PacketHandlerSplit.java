@@ -5,6 +5,7 @@ import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.SplitMsg;
+import network.ClientConnections;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandSplit;
@@ -20,9 +21,8 @@ public class PacketHandlerSplit {
       e.printStackTrace();
       return;
     }
-    //TODO
     @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
-    Message message = new SplitMsg(new Address("client"), commandSplit);
+    Message message = new SplitMsg(new Address(ApplicationContext.instance().get(ClientConnections.class).getPlayer(session).getName()), commandSplit);
     messageSystem.sendMessage(message);
   }
 }

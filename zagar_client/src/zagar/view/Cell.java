@@ -13,34 +13,31 @@ public class Cell {
   @NotNull
   public final String name;
   public int mass;
-  private final boolean virus;
-  public boolean ejectedMass;
+  public int kind; /**virus = -1, usual = 0, ejected = 1, splitted = 2*/
 
-  public Cell(double x, double y, float size, int id, boolean isVirus, boolean isEjectedMass) {
+  public Cell(double x, double y, float size, int id, int kind) {
     this.x = x;
     this.y = y;
     this.size = (int)size;
     this.id = id;
-    this.virus = isVirus;
     this.name = "";
-    this.ejectedMass = isEjectedMass;
+    this.kind = kind;
   }
 
-  public Cell(double x, double y, float size, int id, boolean isVirus, boolean isEjectedMass, String name) {
+  public Cell(double x, double y, float size, int id, int kind, String name) {
     this.x = x;
     this.y = y;
     this.size = (int)size;
     this.id = id;
-    this.virus = isVirus;
     this.name = name;
-    this.ejectedMass = isEjectedMass;
+    this.kind = kind;
   }
 
   public void render(@NotNull Graphics2D g) {
     if (Game.player.size() > 0) {
       float avgX = 0, avgY = 0, playerSize = 0;
       for (Cell c : Game.player) {
-        if (c != null && !c.ejectedMass) {
+        if (c != null && c.kind != 1) {
           avgX += c.x;
           avgY += c.y;
           playerSize++;
@@ -52,7 +49,7 @@ public class Cell {
       int x = (int) ((this.x - avgX) * Game.zoom) + GameFrame.frame_size.width / 2;
       int y = (int) ((this.y - avgY) * Game.zoom) + GameFrame.frame_size.height / 2;
 
-      if (virus) {
+      if (kind == -1) {
         Polygon hexagon = new Polygon();
           int sideNumber = 20;
         for (int i = 0; i < sideNumber; i++) {
@@ -78,7 +75,7 @@ public class Cell {
         g.fillPolygon(hexagon);
       }
 
-      if ((this.name.length() > 0 || (this.mass > 30 && !this.virus)) && !ejectedMass) {
+      if (this.name.length() > 0 && this.size > 30 && Math.abs(kind) != 1) {
         Font font = new Font("Ubuntu", Font.BOLD, size / name.length());
         g.setFont(font);
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);

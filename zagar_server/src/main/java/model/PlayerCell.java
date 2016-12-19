@@ -1,6 +1,7 @@
 package model;
 
 import static model.GameConstants.SPEED_SCALE_FACTOR;
+import static model.GameConstants.SPLIT_SPEED_SCALE_FACTOR;
 
 /**
  * @author apomosov
@@ -54,13 +55,13 @@ public class PlayerCell extends Cell {
     float angle = (dy != 0)? (float) Math.atan(dx / dy) : (float)Math.PI / 2;
 
     if (dx > 0)
-      x += (SPEED_SCALE_FACTOR / mass) * Math.abs(Math.sin(angle));
+      x += (((kind == 2) ? SPLIT_SPEED_SCALE_FACTOR : SPEED_SCALE_FACTOR) / mass) * Math.abs(Math.sin(angle));
     else
-      x -= (SPEED_SCALE_FACTOR / mass) * Math.abs(Math.sin(angle));
+      x -= (((kind == 2) ? SPLIT_SPEED_SCALE_FACTOR : SPEED_SCALE_FACTOR) / mass) * Math.abs(Math.sin(angle));
     if (dy > 0)
-      y += (SPEED_SCALE_FACTOR / mass) * Math.abs(Math.cos(angle));
+      y += (((kind == 2) ? SPLIT_SPEED_SCALE_FACTOR : SPEED_SCALE_FACTOR) / mass) * Math.abs(Math.cos(angle));
     else
-      y -= (SPEED_SCALE_FACTOR / mass) * Math.abs(Math.cos(angle));
+      y -= (((kind == 2) ? SPLIT_SPEED_SCALE_FACTOR : SPEED_SCALE_FACTOR) / mass) * Math.abs(Math.cos(angle));
 
     x = checkCoord(x);
     y = checkCoord(y);
@@ -70,32 +71,37 @@ public class PlayerCell extends Cell {
       directionPointX = x;
       directionPointY = y;
     }
+
+    if (kind == 2 && Math.abs(x - directionPointX) < SPLIT_SPEED_SCALE_FACTOR/mass
+            && Math.abs(y - directionPointY) < SPLIT_SPEED_SCALE_FACTOR/mass){
+      kind = 0;
+    }
   }
 
-  public int calculateEjectMassX(float pointX, float pointY){
+  public int calculateEjectSplitX(float pointX, float pointY, boolean isEject){
     float dx = pointX - x;
     float dy = pointY - y;
     float angle = (dy != 0)? (float) Math.atan(dx / dy) : (float)Math.PI / 2;
     int directionX = x;
 
     if (dx > 0)
-      directionX += (SPEED_SCALE_FACTOR * GameConstants.EJECT_DISTANCE_SCALE / mass) * Math.abs(Math.sin(angle));
+      directionX += (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.sin(angle));
     else
-      directionX -= (SPEED_SCALE_FACTOR * GameConstants.EJECT_DISTANCE_SCALE / mass) * Math.abs(Math.sin(angle));
+      directionX -= (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.sin(angle));
 
     return checkCoord(directionX);
   }
 
-  public int calculateEjectMassY(float pointX, float pointY){
+  public int calculateEjectSplitY(float pointX, float pointY, boolean isEject){
     float dx = pointX - x;
     float dy = pointY - y;
     float angle = (dy != 0)? (float) Math.atan(dx / dy) : (float)Math.PI / 2;
     int directionY = y;
 
     if (dy > 0)
-      directionY += (SPEED_SCALE_FACTOR * GameConstants.EJECT_DISTANCE_SCALE / mass) * Math.abs(Math.cos(angle));
+      directionY += (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.cos(angle));
     else
-      directionY -= (SPEED_SCALE_FACTOR * GameConstants.EJECT_DISTANCE_SCALE / mass) * Math.abs(Math.cos(angle));
+      directionY -= (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.cos(angle));
     return checkCoord(directionY);
   }
 

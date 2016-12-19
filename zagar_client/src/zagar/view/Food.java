@@ -27,7 +27,7 @@ public class Food {
 
             float avgX = 0, avgY = 0, playerSize = 0;
             for (Cell c : Game.player) {
-                if (c != null && !c.ejectedMass) {
+                if (c != null && c.kind != 1) {
                     avgX += c.x;
                     avgY += c.y;
                     playerSize++;

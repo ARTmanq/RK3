@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-@WebSocket(maxTextMessageSize = 4096*64)
+@WebSocket(maxTextMessageSize = 4096*16)
 public class ServerConnectionSocket {
   @NotNull
   private static final Logger log = LogManager.getLogger("<<<");

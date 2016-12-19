@@ -6,41 +6,34 @@ package protocol.model;
 public final class Cell {
   private final int cellId;
   private final int playerId;
-  private final boolean isVirus;
   private final float size;
   private int x;
   private int y;
   private final String name;
-  private final boolean ejectedMass;
+  private final int kind;
 
-  public Cell(int cellId, int playerId, boolean isVirus, boolean ejectedMass, float size, int x, int y) {
+  public Cell(int cellId, int playerId, int kind, float size, int x, int y) {
     this.cellId = cellId;
     this.playerId = playerId;
-    this.isVirus = isVirus;
+    this.kind = kind;
     this.size = size;
     this.x = x;
     this.y = y;
     this.name = "";
-    this.ejectedMass = ejectedMass;
   }
 
-  public Cell(int cellId, int playerId, boolean isVirus, boolean ejectedMass, float size, int x, int y, String name) {
+  public Cell(int cellId, int playerId, int kind, float size, int x, int y, String name) {
     this.cellId = cellId;
     this.playerId = playerId;
-    this.isVirus = isVirus;
     this.size = size;
     this.x = x;
     this.y = y;
     this.name = name;
-    this.ejectedMass = ejectedMass;
+    this.kind = kind;
   }
 
   public int getPlayerId() {
     return playerId;
-  }
-
-  public boolean isVirus() {
-    return isVirus;
   }
 
   public int getX() {
@@ -59,7 +52,7 @@ public final class Cell {
     return size;
   }
 
-  public boolean getEjectedMass() {return ejectedMass; }
+  public int getKind() {return kind; }
 
   public String getName() {
     return name;
