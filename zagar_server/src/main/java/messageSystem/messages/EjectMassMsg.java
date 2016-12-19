@@ -29,7 +29,8 @@ public class EjectMassMsg extends Message{
         }
         Player player = super.getPlayer();
 
-        for (int i = 0; i < player.getCells().size(); i++){
+        int playerCellSize = player.getCells().size();
+        for (int i = 0; i < playerCellSize; i++){
             if (player.getCells().get(i).getMass() - GameConstants.EJECTED_MASS < GameConstants.DEFAULT_PLAYER_CELL_MASS){
                 continue;
             }

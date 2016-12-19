@@ -66,8 +66,8 @@ public class PlayerCell extends Cell {
     x = checkCoord(x);
     y = checkCoord(y);
 
-    if (kind == 1 && Math.abs(x - directionPointX) < SPEED_SCALE_FACTOR/mass
-            && Math.abs(y - directionPointY) < SPEED_SCALE_FACTOR/mass){
+    if(kind == 1 && ((Math.abs(x - directionPointX) < SPEED_SCALE_FACTOR / mass && Math.abs(y - directionPointY) < SPEED_SCALE_FACTOR / mass)
+            || x == GameConstants.FIELD_WIDTH || y == GameConstants.FIELD_HEIGHT || x == 0 || y == 0)){
       directionPointX = x;
       directionPointY = y;
     }
@@ -89,7 +89,7 @@ public class PlayerCell extends Cell {
     else
       directionX -= (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.sin(angle));
 
-    return checkCoord(directionX);
+    return directionX;
   }
 
   public int calculateEjectSplitY(float pointX, float pointY, boolean isEject){
@@ -102,7 +102,7 @@ public class PlayerCell extends Cell {
       directionY += (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.cos(angle));
     else
       directionY -= (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.cos(angle));
-    return checkCoord(directionY);
+    return directionY;
   }
 
   private int checkCoord(int coord){

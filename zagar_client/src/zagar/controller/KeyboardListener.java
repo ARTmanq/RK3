@@ -10,20 +10,16 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 
 public class KeyboardListener implements KeyListener {
-  private boolean keyWPressed;
-  private boolean keySPACEPressed;
 
   @Override
   public void keyPressed(@NotNull KeyEvent e) {
     try {
       if (Game.socket != null && Game.socket.session != null) {
         if (Game.socket.session.isOpen()) {
-          if (e.getKeyCode() == KeyEvent.VK_SPACE && !keySPACEPressed) {
-            keySPACEPressed = true;
+          if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             new PacketSplit().write();
           }
-          if (e.getKeyCode() == KeyEvent.VK_W && !keyWPressed) {
-            keyWPressed = true;
+          if (e.getKeyCode() == KeyEvent.VK_W) {
             new PacketEjectMass().write();
           }
             /*if (e.getKeyCode() == KeyEvent.VK_T) {
@@ -45,19 +41,6 @@ public class KeyboardListener implements KeyListener {
         }
       }
     }*/
-    if (Game.socket != null && Game.socket.session != null) {
-      if (Game.socket.session.isOpen()) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-          keySPACEPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-          keyWPressed = false;
-        }
-        /*if (e.getKeyCode() == KeyEvent.VK_T) {
-          Game.rapidEject = true;
-        }*/
-      }
-    }
   }
 
   @Override
