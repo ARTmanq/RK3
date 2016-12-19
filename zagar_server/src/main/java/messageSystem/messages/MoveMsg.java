@@ -96,7 +96,7 @@ public class MoveMsg extends Message {
             int newCellsNumber = player.getCells().get(i).getMass() / GameConstants.DEFAULT_PLAYER_CELL_MASS;
             if (newCellsNumber > 0) {
                 System.out.println("!!!!!!!!!!!!!!" + newCellsNumber);
-                for (int j = 0; j < newCellsNumber; j++) {
+                for (int j = 0; j < newCellsNumber - 1; j++) {
                     PlayerCell newCell = new PlayerCell(Cell.idGenerator.next(),
                             player.getCells().get(i).getX(), player.getCells().get(i).getY(),
                             player.getCells().get(i).getMass() / newCellsNumber);

@@ -11,8 +11,8 @@ public interface GameConstants {
   /**MASS*/
   int FOOD_MASS = 20;
   int EJECTED_MASS = 40;
-  int DEFAULT_PLAYER_CELL_MASS = 20;
-  int VIRUS_MASS = 50;
+  int DEFAULT_PLAYER_CELL_MASS = 40;
+  int VIRUS_MASS = 80;
 
   /**NUMBER OF OBJECTS*/
   int MAX_PLAYERS_IN_SESSION = 10;
