@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author apomosov
@@ -16,7 +16,7 @@ public class Player {
   @NotNull
   private String name;
   @NotNull
-  private final List<PlayerCell> cells = new ArrayList<>();
+  private final List<PlayerCell> cells = new CopyOnWriteArrayList<>();
 
   public Player(int id, @NotNull String name) {
     this.id = id;

@@ -25,6 +25,6 @@ public class PacketAuth {
   public void write() throws IOException {
     String msg = JSONHelper.toJSON(new CommandAuth(login, token));
     log.info("Sending [" + msg + "]");
-    Game.socket.session.getRemote().sendString(msg);
+    Game.socket.session.getRemote().sendStringByFuture(msg);
   }
 }
