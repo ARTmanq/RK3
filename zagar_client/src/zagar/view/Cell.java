@@ -70,9 +70,8 @@ public class Cell {
         Polygon hexagon = new Polygon();
         int sideNumber = 12;
         for (int i = 0; i < sideNumber; i++) {
-          float pi = 3.14f;
-          int pointX = (int) (x + (size / 2) * Math.cos(i * 2 * pi / sideNumber)) + size / 2;
-          int pointY = (int) (y + (size / 2) * Math.sin(i * 2 * pi / sideNumber)) + size / 2;
+          int pointX = (int) (x + (size / 2) * Math.cos(i * 2 * Math.PI / sideNumber) /  Game.zoom);
+          int pointY = (int) (y + (size / 2) * Math.sin(i * 2 * Math.PI / sideNumber) / Game.zoom);
           hexagon.addPoint(pointX, pointY);
         }
         g.setColor(new Color(0, 150, 0));
@@ -87,8 +86,7 @@ public class Cell {
 
         int fontSize = fm.stringWidth(this.name);
 
-        outlineString(g, this.name, x + size / 2 - fontSize / 2, y + size / 2);
-      }
+        outlineString(g, this.name, GameFrame.frame_size.width / 2 - fontSize / 2, GameFrame.frame_size.height / 2);      }
     }
   }
 

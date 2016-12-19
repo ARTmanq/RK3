@@ -23,9 +23,11 @@ public class PacketHandlerReplicate {
     Cell[] gameCells = new Cell[commandReplicate.getCells().length];
     for (int i = 0; i < commandReplicate.getCells().length; i++) {
       protocol.model.Cell c = commandReplicate.getCells()[i];
-      gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus(), c.getEjectedMass(), c.getName());
-      if (c.getPlayerId() == Game.playerId){
-        Game.player.add(gameCells[i]);
+      if (c != null) {
+        gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus(), c.getEjectedMass(), c.getName());
+        if (c.getPlayerId() == Game.playerId) {
+          Game.player.add(gameCells[i]);
+        }
       }
     }
     Game.cells = gameCells;

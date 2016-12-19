@@ -31,13 +31,27 @@ public class MoveMsg extends Message {
 
         calculateNewCoords(player);
 
-        for (Food food : gameSession.getField().getFoods()){
-            for (PlayerCell cell : player.getCells()){
-                if (Math.abs(food.getX() - cell.getX()) < cell.getMass()
-                        && Math.abs(food.getY() - cell.getY()) < cell.getMass()){
-                    gameSession.getField().getFoods().remove(food);
-                    player.getCells().get(0).setMass((int)(player.getCells().get(0).getMass() +
-                            GameConstants.PORTION_OF_FOODMASS_EATEN * food.getMass()));
+        for (Food food : gameSession.getField().getFoods()) {
+            if (player != null) {
+                for (PlayerCell cell : player.getCells()) {
+                    if (Math.abs(food.getX() - cell.getX()) < cell.getMass()
+                            && Math.abs(food.getY() - cell.getY()) < cell.getMass()) {
+                        gameSession.getField().getFoods().remove(food);
+                        player.getCells().get(0).setMass((int) (player.getCells().get(0).getMass() +
+                                GameConstants.PORTION_OF_FOODMASS_EATEN * food.getMass()));
+                    }
+                }
+            }
+        }
+
+        for (Virus virus : gameSession.getField().getViruses()){
+            if (player != null) {
+                for (PlayerCell cell : player.getCells()){
+                    if (Math.abs(virus.getX() - cell.getX()) < cell.getMass() && Math.abs(virus.getY() - cell.getY()) < cell.getMass()){
+                        gameSession.getField().getViruses().remove(virus);
+                        player.getCells().get(0).setMass((int)(player.getCells().get(0).getMass() + GameConstants.PORTION_OF_FOODMASS_EATEN * virus.getMass()));
+                        GameSessionImpl.virusGenerator.generate();
+                    }
                 }
             }
         }
