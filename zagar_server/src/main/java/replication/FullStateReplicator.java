@@ -44,7 +44,9 @@ public class FullStateReplicator implements Replicator {
           cells[i] = new Cell(-1, -1, true, false, virus.getMass(), virus.getX(), virus.getY());
           i++;
       }
-      Arrays.sort(cells);
+      System.out.println(cells.length);
+      System.out.println(numberOfCellsInSession + GameConstants.NUMBER_OF_VIRUSES - 1);
+      Arrays.sort(cells, 0, numberOfCellsInSession + GameConstants.NUMBER_OF_VIRUSES - 1);
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
         if (gameSession.getPlayers().contains(connection.getKey())) {
           try {
