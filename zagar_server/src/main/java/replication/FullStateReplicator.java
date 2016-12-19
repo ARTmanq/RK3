@@ -10,6 +10,7 @@ import protocol.model.Cell;
 import protocol.model.Food;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 import static model.GameConstants.FOOD_COUNT;
@@ -43,6 +44,7 @@ public class FullStateReplicator implements Replicator {
           cells[i] = new Cell(-1, -1, -1, virus.getMass(), virus.getX(), virus.getY());
           i++;
       }
+      Arrays.sort(cells, 0, numberOfCellsInSession + GameConstants.NUMBER_OF_VIRUSES - 1);
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
         if (gameSession.getPlayers().contains(connection.getKey())) {
           try {
