@@ -24,7 +24,7 @@ public class PacketSplit {
         float mouseX = (float)((GameFrame.mouseX - GameFrame.frame_size.width / 2) / Game.zoom + avgX);
         float mouseY = (float)((GameFrame.mouseY - GameFrame.frame_size.height / 2) / Game.zoom + avgY);
         String msg = JSONHelper.toJSON(new CommandSplit(mouseX, mouseY));
-        Game.socket.session.getRemote().sendString(msg);
+        Game.socket.session.getRemote().sendStringByFuture(msg);
       }
     }
   }

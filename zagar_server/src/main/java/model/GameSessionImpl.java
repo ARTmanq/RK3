@@ -3,8 +3,8 @@ package model;
 import org.jetbrains.annotations.NotNull;
 import utils.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author apomosov
@@ -15,7 +15,7 @@ public class GameSessionImpl implements GameSession {
   @NotNull
   private final Field field = new Field();
   @NotNull
-  private final List<Player> players = new ArrayList<>();
+  private final List<Player> players = new CopyOnWriteArrayList<>();
   @NotNull
   private static FoodGenerator foodGenerator;
   @NotNull
@@ -46,7 +46,7 @@ public class GameSessionImpl implements GameSession {
 
   @Override
   public List<Player> getPlayers() {
-    return new ArrayList<>(players);
+    return new CopyOnWriteArrayList<>(players);
   }
 
   @Override
