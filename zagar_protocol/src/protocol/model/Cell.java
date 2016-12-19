@@ -1,9 +1,11 @@
 package protocol.model;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author apomosov
  */
-public final class Cell {
+public final class Cell implements Comparable<Cell>{
   private final int cellId;
   private final int playerId;
   private final boolean isVirus;
@@ -65,4 +67,8 @@ public final class Cell {
     return name;
   }
 
+  @Override
+  public int compareTo(@NotNull Cell o) {
+    return (int)(size - o.getSize());
+  }
 }
