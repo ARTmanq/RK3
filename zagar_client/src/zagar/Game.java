@@ -127,12 +127,10 @@ public class Game {
     if (socket.session != null && player.size() > 0) {
       int newScore = 0;
       for (Cell c : player) {
-        newScore += (c.size * c.size) / 100;
+        newScore += c.size;
       }
 
-      if (newScore > score) {
-        score = newScore;
-      }
+      score = newScore;
 
       if (socket.session.isOpen()) {
         float dx = (float) (GameFrame.mouseX - GameFrame.frame_size.width / 2);

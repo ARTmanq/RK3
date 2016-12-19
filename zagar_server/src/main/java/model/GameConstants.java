@@ -18,7 +18,7 @@ public interface GameConstants {
   int MAX_PLAYERS_IN_SESSION = 10;
   int NUMBER_OF_VIRUSES = 10;
   int FOOD_COUNT = 100;
-  float PORTION_OF_FOODMASS_EATEN = 0.1f;
+  float PORTION_OF_FOODMASS_EATEN = 0.05f;
 
   /**SPEED*/
   int SPEED_SCALE_FACTOR = 2000;
