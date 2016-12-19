@@ -82,8 +82,12 @@ public class Cell {
         FontMetrics fm = img.getGraphics().getFontMetrics(font);
 
         int fontSize = fm.stringWidth(this.name);
+        
+          outlineString(g, this.name,x - fontSize/2, y );
 
-        outlineString(g, this.name, GameFrame.frame_size.width / 2 - fontSize / 2, GameFrame.frame_size.height / 2);      }
+      }
+
+
     }
   }
 
