@@ -72,8 +72,9 @@ public class PlayerCell extends Cell {
       directionPointY = y;
     }
 
-    if (kind == 2 && Math.abs(x - directionPointX) < SPLIT_SPEED_SCALE_FACTOR/mass
-            && Math.abs(y - directionPointY) < SPLIT_SPEED_SCALE_FACTOR/mass){
+    if (kind == 2 && ((Math.abs(x - directionPointX) < SPLIT_SPEED_SCALE_FACTOR/mass
+            && Math.abs(y - directionPointY) < SPLIT_SPEED_SCALE_FACTOR/mass)
+            || x == GameConstants.FIELD_WIDTH || y == GameConstants.FIELD_HEIGHT || x == 0 || y == 0)){
       kind = 0;
     }
   }
