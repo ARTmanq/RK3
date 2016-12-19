@@ -22,6 +22,6 @@ public class PacketLeaderBoard {
   public void write(@NotNull Session session) throws IOException {
     String msg = JSONHelper.toJSON(new CommandLeaderBoard(leaderBoard));
     log.info("Sending [" + msg + "]");
-    session.getRemote().sendString(msg);
+    session.getRemote().sendStringByFuture(msg);
   }
 }

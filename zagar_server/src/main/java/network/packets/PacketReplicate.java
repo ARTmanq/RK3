@@ -27,6 +27,6 @@ public class PacketReplicate {
   public void write(@NotNull Session session) throws IOException {
     String msg = JSONHelper.toJSON(new CommandReplicate(food, cells));
     log.info("Sending [" + msg + "]");
-    session.getRemote().sendString(msg);
+    session.getRemote().sendStringByFuture(msg);
   }
 }
