@@ -28,8 +28,8 @@ public class SplitMsg extends Message {
             return;
         }
         Player player = super.getPlayer();
-
-        for (int i = 0; i < player.getCells().size(); i++){
+        int curSize = player.getCells().size();
+        for (int i = 0; i < curSize; i++){
             if ((player.getCells().get(i).getMass() / 2) < GameConstants.DEFAULT_PLAYER_CELL_MASS){
                 continue;
             }
