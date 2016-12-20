@@ -30,11 +30,16 @@ public class MoveMsg extends Message {
         Player player = super.getPlayer();
 
         if (player != null) {
-            calculateNewCoords(player);
-            for (PlayerCell cell : player.getCells()) {
-                eatFood(gameSession, cell);
-                eatVirus(player, gameSession, cell);
-                eatPlayer(gameSession, cell);
+            if(player.getCells().size() == 0) {
+                gameSession.leave(player);
+
+            } else {
+                calculateNewCoords(player);
+                for (PlayerCell cell : player.getCells()) {
+                    eatFood(gameSession, cell);
+                    eatVirus(player, gameSession, cell);
+                    eatPlayer(gameSession, cell);
+                }
             }
         }
     }
@@ -114,6 +119,7 @@ public class MoveMsg extends Message {
 
     private void calculateNewCoords(Player player){
         int avgX = 0, avgY = 0, playerMass = 0, size = 0;
+
         for (PlayerCell cell : player.getCells()) {
             if (cell.getKind() != 1) {
                 avgX += cell.getX();

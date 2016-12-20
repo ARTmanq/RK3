@@ -10,10 +10,12 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import utils.JSONHelper;
+import utils.PlayerComparator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Artem on 12/18/16.
@@ -27,26 +29,11 @@ public class LeaderBoardImpl implements LeaderBoard {
             try {
                 List<Player> players = ApplicationContext.instance().get(MatchMaker.class)
                         .getGameSession(connection.getKey().getName()).getPlayers();
-                ArrayList<Player> leaderBoard = new ArrayList<>();
+                ArrayList<Player> leaderBoard = new ArrayList<>(players);
                 ArrayList<String> leaderBoardForJSON = new ArrayList<>();
-                for(Player player : players) {
-                    if(!leaderBoard.isEmpty()) {
-                        if(leaderBoard.size() > 10) {
-                            break;
-                        }
-                        for(Player i : leaderBoard) {
-                            if(player.getTotalMass() > i.getTotalMass()) {
-                                leaderBoard.add(leaderBoard.indexOf(i), player);
-                                break;
-                            }
-                        }
-                    } else {
-                        leaderBoard.add(player);
-                    }
-                }
-                for(Player player : leaderBoard) {
-                    leaderBoardForJSON.add(player.getName());
-                }
+                leaderBoard.sort(new PlayerComparator());
+                leaderBoardForJSON.addAll(leaderBoard.stream().map(Player::getName)
+                        .collect(Collectors.toList()));
                 String headerJSON = "{" + "\"leaderBoard\":[";
                 String bodyJSON = "";
                 for(String i : leaderBoardForJSON) {
@@ -57,7 +44,7 @@ public class LeaderBoardImpl implements LeaderBoard {
                 JSONHelper.fromJSON(forJSON, PacketLeaderBoard.class)
                         .write(connection.getValue());
             } catch (Exception e) {
-                log.error(e.getMessage());
+                //log.error(e.getMessage());
             }
         }
     }

@@ -27,11 +27,28 @@ public class MatchMakerImpl implements MatchMaker {
    */
   @Override
   public void joinGame(@NotNull Player player) {
-    GameSession newGameSession = createNewGame();
-    activeGameSessions.add(newGameSession);
-    newGameSession.join(player);
+    //if(activeGameSessions.)
+    if(activeGameSessions.size() == 0) {
+      GameSession newGameSession = createNewGame();
+      activeGameSessions.add(newGameSession);
+    }
+    int i;
+    for(i = 0; i < activeGameSessions.size(); ++i) {
+      if(activeGameSessions.get(i).getPlayers().size() < 10) {
+        activeGameSessions.get(i).join(player);
+        break;
+      }
+    }
+    if(i == activeGameSessions.size()) {
+      GameSession newGameSession = createNewGame();
+      newGameSession.join(player);
+      activeGameSessions.add(newGameSession);
+    }
+    //GameSession newGameSession = createNewGame();
+   // activeGameSessions.add(newGameSession);
+    //activeGameSessions.get(0).join(player);//newgamesession
     if (log.isInfoEnabled()) {
-      log.info(player + " joined " + newGameSession);
+      log.info(player + " joined " + activeGameSessions.get(0));
     }
   }
 
