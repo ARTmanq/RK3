@@ -32,11 +32,15 @@ public class MoveMsg extends Message {
         Player player = super.getPlayer();
 
         if (player != null) {
-            calculateNewCoords(player);
-            for (PlayerCell cell : player.getCells()) {
-                eatFood(gameSession, cell);
-                eatVirus(player, gameSession, cell);
-                eatPlayer(gameSession, cell);
+            if(player.getCells().size() == 0){
+                gameSession.leave(player);
+            } else {
+                calculateNewCoords(player);
+                for (PlayerCell cell : player.getCells()) {
+                    eatFood(gameSession, cell);
+                    eatVirus(player, gameSession, cell);
+                    eatPlayer(gameSession, cell);
+                }
             }
         }
     }
@@ -116,19 +120,18 @@ public class MoveMsg extends Message {
             avgY -= (SPEED_SCALE_FACTOR / playerMass) * Math.abs(Math.cos(angle));
         sortedPlayerCells.get(0).setX(checkCoord(sortedPlayerCells.get(0).getX()));
         sortedPlayerCells.get(0).setY(checkCoord(sortedPlayerCells.get(0).getY()));
-        for(int i = 0; i < sortedPlayerCells.size(); ++i) {
-            if (sortedPlayerCells.get(i).getKind() == 0) {
-                sortedPlayerCells.get(i).setDirectionPoint(avgX, avgY);
+        for(PlayerCell cell : sortedPlayerCells) {
+            if (cell.getKind() == 0) {
+                cell.setDirectionPoint(avgX, avgY);
             }
-            sortedPlayerCells.get(i).calculateCoords();
-            if(i > 0) {
-                for(int j = 0; j < i; ++j) {
-                    if(countDestination(sortedPlayerCells.get(i), sortedPlayerCells.get(j)) + 1
-                            < sortedPlayerCells.get(j).getMass() + sortedPlayerCells.get(i).getMass()) {
-                        checkPlayerCellsCollision(sortedPlayerCells.get(j), sortedPlayerCells.get(i));
+            cell.calculateCoords();
+                for(PlayerCell cell2 : sortedPlayerCells) {
+                    if (cell2 != cell) {
+                        if (countDestination(cell, cell2) + 1 < cell2.getMass() + cell.getMass()) {
+                            checkPlayerCellsCollision(cell2, cell);
+                        }
                     }
                 }
-            }
         }
     }
 

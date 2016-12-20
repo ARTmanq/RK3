@@ -86,9 +86,9 @@ public class PlayerCell extends Cell {
     int directionX = x;
 
     if (dx > 0)
-      directionX += (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.sin(angle));
+      directionX += (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) + mass) * Math.abs(Math.sin(angle));
     else
-      directionX -= (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.sin(angle));
+      directionX -= (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) + mass) * Math.abs(Math.sin(angle));
 
     return directionX;
   }
@@ -100,9 +100,9 @@ public class PlayerCell extends Cell {
     int directionY = y;
 
     if (dy > 0)
-      directionY += (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.cos(angle));
+      directionY += (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) + mass) * Math.abs(Math.cos(angle));
     else
-      directionY -= (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) / mass) * Math.abs(Math.cos(angle));
+      directionY -= (SPEED_SCALE_FACTOR * (isEject ? GameConstants.EJECT_DISTANCE_SCALE : GameConstants.SPLIT_DISTANCE_SCALE) + mass) * Math.abs(Math.cos(angle));
     return directionY;
   }
 

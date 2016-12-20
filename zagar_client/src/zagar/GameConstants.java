@@ -13,7 +13,7 @@ public interface GameConstants {
   String DEFAULT_ACCOUNT_SERVER_HOST = "localhost";
   int DEFAULT_ACCOUNT_SERVER_PORT = 8080;
   @NotNull
-  String DEFAULT_LOGIN = "zAgar";
+  String DEFAULT_LOGIN = "Artem";
   @NotNull
   String DEFAULT_PASSWORD = "pass";
 }
