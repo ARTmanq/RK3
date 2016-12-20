@@ -9,6 +9,8 @@ import messageSystem.MessageSystem;
 import model.*;
 import protocol.CommandMove;
 
+import java.util.List;
+
 import static model.GameConstants.SPEED_SCALE_FACTOR;
 
 public class MoveMsg extends Message {
@@ -30,16 +32,11 @@ public class MoveMsg extends Message {
         Player player = super.getPlayer();
 
         if (player != null) {
-            if(player.getCells().size() == 0) {
-                gameSession.leave(player);
-
-            } else {
-                calculateNewCoords(player);
-                for (PlayerCell cell : player.getCells()) {
-                    eatFood(gameSession, cell);
-                    eatVirus(player, gameSession, cell);
-                    eatPlayer(gameSession, cell);
-                }
+            calculateNewCoords(player);
+            for (PlayerCell cell : player.getCells()) {
+                eatFood(gameSession, cell);
+                eatVirus(player, gameSession, cell);
+                eatPlayer(gameSession, cell);
             }
         }
     }
@@ -57,7 +54,7 @@ public class MoveMsg extends Message {
     private void eatVirus(Player player, GameSession gameSession, PlayerCell cell){
         for (Virus virus : gameSession.getField().getViruses()){
             if (Math.abs(virus.getX() - cell.getX()) < cell.getMass() && Math.abs(virus.getY() - cell.getY()) < cell.getMass()){
-                if (cell.getMass() >  virus.getMass()) {
+                if (cell.getMass() > virus.getMass()) {
                     gameSession.getField().getViruses().remove(virus);
                     GameSessionImpl.virusGenerator.generate();
                     boomSplit(player);
@@ -72,7 +69,7 @@ public class MoveMsg extends Message {
                 if (!player.equals(getPlayer())) {
                     for (PlayerCell toeatCell : player.getCells()) {
                         if ((Math.abs(toeatCell.getX() - cell.getX()) < cell.getMass()) && (Math.abs(toeatCell.getY() - cell.getY()) < cell.getMass()) && (cell.getMass() > toeatCell.getMass())) {
-                            cell.setMass((int) (cell.getMass() + GameConstants.PORTION_OF_FOODMASS_EATEN * toeatCell.getMass()));
+                            cell.setMass((int) (cell.getMass() +  toeatCell.getMass()));
                             player.removeCell(toeatCell);
                         }
                     }
@@ -80,7 +77,7 @@ public class MoveMsg extends Message {
                     for (PlayerCell toeatCell : player.getCells()) {
                         if ((toeatCell.getKind() == 1) && (toeatCell.getDirectionPointX() == toeatCell.getX()) && (toeatCell.getDirectionPointY() == toeatCell.getY())) {
                             if ((Math.abs(toeatCell.getX() - cell.getX()) < cell.getMass()) && (Math.abs(toeatCell.getY() - cell.getY()) < cell.getMass())) {
-                                cell.setMass((int) (cell.getMass() + GameConstants.PORTION_OF_FOODMASS_EATEN * toeatCell.getMass()));
+                                cell.setMass((int) (cell.getMass() + toeatCell.getMass()));
                                 player.removeCell(toeatCell);
                             }
                         }
@@ -90,35 +87,9 @@ public class MoveMsg extends Message {
         }
     }
 
-    private void boomSplit(Player player){
-        for (int i = 0; i < player.getCells().size(); i++) {
-            if ((player.getCells().get(i).getMass() / 2) < GameConstants.DEFAULT_PLAYER_CELL_MASS) {
-                continue;
-            }
-            //подсчитать количество частей, на которых поделить
-            //запустить цикл с рандомом
-
-            int newCellsNumber = player.getCells().get(i).getMass() / GameConstants.DEFAULT_PLAYER_CELL_MASS;
-            if (newCellsNumber > 0) {
-                System.out.println("!!!!!!!!!!!!!!" + newCellsNumber);
-                for (int j = 0; j < newCellsNumber - 1; j++) {
-                    PlayerCell newCell = new PlayerCell(Cell.idGenerator.next(),
-                            player.getCells().get(i).getX(), player.getCells().get(i).getY(),
-                            player.getCells().get(i).getMass() / newCellsNumber);
-
-                    newCell.setDirectionPoint(player.getCells().get(i).calculateEjectSplitX((int) (2000 * Math.random()), (int) (2000 * Math.random()), false),
-                            player.getCells().get(i).calculateEjectSplitY((int) (2000 * Math.random()), (int) (2000 * Math.random()), false));
-
-                    newCell.setKind(2);
-                    player.getCells().add(newCell);
-                }
-                player.getCells().get(i).setMass(player.getCells().get(i).getMass() / newCellsNumber);
-            }
-        }
-    }
-
     private void calculateNewCoords(Player player){
         int avgX = 0, avgY = 0, playerMass = 0, size = 0;
+        List<PlayerCell> sortedPlayerCells = player.getCells();
 
         for (PlayerCell cell : player.getCells()) {
             if (cell.getKind() != 1) {
@@ -143,12 +114,76 @@ public class MoveMsg extends Message {
             avgY += (SPEED_SCALE_FACTOR / playerMass) * Math.abs(Math.cos(angle));
         else
             avgY -= (SPEED_SCALE_FACTOR / playerMass) * Math.abs(Math.cos(angle));
-
-        for (PlayerCell cell : player.getCells()){
-            if (cell.getKind() == 0) {
-                cell.setDirectionPoint(avgX, avgY);
+        sortedPlayerCells.get(0).setX(checkCoord(sortedPlayerCells.get(0).getX()));
+        sortedPlayerCells.get(0).setY(checkCoord(sortedPlayerCells.get(0).getY()));
+        for(int i = 0; i < sortedPlayerCells.size(); ++i) {
+            if (sortedPlayerCells.get(i).getKind() == 0) {
+                sortedPlayerCells.get(i).setDirectionPoint(avgX, avgY);
             }
-            cell.calculateCoords();
+            sortedPlayerCells.get(i).calculateCoords();
+            if(i > 0) {
+                for(int j = 0; j < i; ++j) {
+                    if(countDestination(sortedPlayerCells.get(i), sortedPlayerCells.get(j)) + 1
+                            < sortedPlayerCells.get(j).getMass() + sortedPlayerCells.get(i).getMass()) {
+                        checkPlayerCellsCollision(sortedPlayerCells.get(j), sortedPlayerCells.get(i));
+                    }
+                }
+            }
+        }
+    }
+
+    private int countDestination(PlayerCell cell1, PlayerCell cell2) {
+        int dx = cell1.getX() - cell2.getX();
+        int dy = cell1.getY() - cell2.getY();
+        return (int)Math.sqrt(dx * dx + dy * dy);
+    }
+
+    private void checkPlayerCellsCollision(PlayerCell playerCell1, PlayerCell playerCell2) {
+        if (playerCell1.getKind() == 0 && playerCell2.getKind() == 0) {
+            playerCell1.setMass(playerCell1.getMass() + playerCell2.getMass());
+            getPlayer().removeCell(playerCell2);
+        }
+    }
+
+    private int checkCoord(int coord){
+        int checkedCoord;
+        if (coord > GameConstants.FIELD_WIDTH) {
+            checkedCoord = GameConstants.FIELD_WIDTH;
+        }
+        else if ( coord < 0 ){
+            checkedCoord = 0;
+        }
+        else{
+            checkedCoord = coord;
+        }
+        return checkedCoord;
+    }
+
+    private void boomSplit(Player player){
+        for (int i = 0; i < player.getCells().size(); i++) {
+            if ((player.getCells().get(i).getMass() / 2) < GameConstants.DEFAULT_PLAYER_CELL_MASS) {
+                continue;
+            }
+//подсчитать количество частей, на которых поделить
+//запустить цикл с рандомом
+
+            int newCellsNumber = player.getCells().get(i).getMass() / GameConstants.DEFAULT_PLAYER_CELL_MASS;
+            if (newCellsNumber > 0) {
+                System.out.println("!!!!!!!!!!!!!!" + newCellsNumber);
+                for (int j = 0; j < newCellsNumber - 1; j++) {
+                    PlayerCell newCell = new PlayerCell(Cell.idGenerator.next(),
+                            player.getCells().get(i).getX(), player.getCells().get(i).getY(),
+                            player.getCells().get(i).getMass() / newCellsNumber);
+
+                    newCell.setDirectionPoint(player.getCells().get(i).calculateEjectSplitX((int) (2000 * Math.random()), (int) (2000 * Math.random()), false),
+                            player.getCells().get(i).calculateEjectSplitY((int) (2000 * Math.random()), (int) (2000 * Math.random()), false));
+
+                    newCell.setKind(2);
+                    player.getCells().add(newCell);
+                }
+                player.getCells().get(i).setMass(player.getCells().get(i).getMass() / newCellsNumber);
+            }
         }
     }
 }
+
